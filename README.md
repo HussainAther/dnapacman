@@ -2,7 +2,7 @@
 
 ## Instructions (type the following):
 
-    1. unzip dnapacman.zip
+    1. unzip master.zip
 
     2. cd dnapacman
 

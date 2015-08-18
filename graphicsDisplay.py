@@ -513,6 +513,8 @@ class PacmanGraphics:
         c+=1
     elif food_matrix[x,y]=="G" and c==2:
         c+=1
+    elif food_matrix[x,y]=="":
+        pass
     else:
         c=0
     if c==3:
@@ -531,10 +533,12 @@ class PacmanGraphics:
         for i in amino_acids:
             if i in AMINO_BANK:
                 amino_string+=AMINO_BANK[i]
-            if len(str(i))%3==0:
-                if AMINO_BANK[i]=="*":
-                    start=0
-                    break
+            if amino_string[-1]=="*":
+                start=0
+                del CODON_BANK[:]
+                codon_string=""
+                amino_string="M"
+                break
         print "AMINO ACID " + str(amino_string)
 
   def removeCapsule(self, cell, capsuleImages ):
