@@ -1,10 +1,15 @@
 # DNA Pac-Man!!!!! (By Hussain Ather and Jonathan Lu) 
 
-![Screenshot](http://imgur.com/HV2pOWy)
+![Screenshot](http://imgur.com/HV2pOWy.png)
+
+## Background:
+
+In DNA Pac-Man, you play as RNA polymerase, an enzyme used to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
+
 
 ## Instructions (type the following):
 
-    1. unzip master.zip
+    1. Download and unzip the repository 
 
     2. cd dnapacman
 
@@ -21,11 +26,6 @@
     -n	How many games in a row you will play: Can be set to whatever.
 
 
-## Background:
-
-
-In DNA Pac-Man, you play as RNA polymerase, an enzyme used to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
-
 ## AMINO ACID CHART:
 "UUU":"Phe" (F) Phenylalanine
 
@@ -38,7 +38,6 @@ In DNA Pac-Man, you play as RNA polymerase, an enzyme used to transcribe sequenc
 "UCU":"Ser" (S) Serine
 
 "UCC":"Ser" (S) Serine
-
 
 "UCA":"Ser" (S) Serine
 
