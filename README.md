@@ -1,5 +1,7 @@
 # DNA Pac-Man!!!!! (By Hussain Ather and Jonathan Lu) 
 
+![Screenshot](http://imgur.com/HV2pOWy)
+
 ## Instructions (type the following):
 
     1. unzip master.zip
