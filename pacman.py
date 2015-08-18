@@ -247,7 +247,7 @@ class ClassicGameRules:
     game = Game(agents, display, self)
     game.state = initState
     return game
-
+    
   def process(self, state, game):
     """
     Checks to see whether it is time to end the game.

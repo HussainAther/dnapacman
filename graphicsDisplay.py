@@ -54,14 +54,19 @@ pacman_speed = 0.25
 FOOD_COLOR = formatColor(1,1,1)     
 FOOD_SIZE = 0.1
 FOOD_BANK=["A", "C", "U", "G"]
-CODON_CHART={"UUU":"Phe", "UUC":"Phe", "UUA":"Leu", "UUG":"Leu", "UCU":"Ser", "UCC":"Ser", "UCA":"Ser", "UCG":"Ser", "UAU":"Tyr", "UAC":"Tyr", "UAA":" *", "UAG":" *", "UGU":"Cys", "UGC":"Cys", "UGA":" *", "UGG":"Trp", "CUU":"Leu", "CUC":"Leu", "CUA":"Leu", "CUG":"Leu", "CCU":"Pro", "CCC":"Pro", "CCA":"Pro", "CCG":"Pro", "CAU":"His", "CAC":"His", "CAA":"Gln", "CAG":"Gln", "CGU":"Arg", "CGC":"Arg", "CGA":"Arg", "CGG":"Arg", "AUU":"Ile", "AUC":"Ile", "AUA":"Ile", "AUG":"Met", "ACU":"Thr", "ACC":"Thr", "ACA":"Thr", "ACG":"Thr", "AAU":"Asn", "AAC":"Asn", "AAA":"Lys", "AAG":"Lys", "AGU":"Ser", "AGC":"Ser", "AGA":"Arg", "AGG":"Arg", "GUU":"Val", "GUC":"Val", "GUA":"Val", "GUG":"Val", "GCU":"Ala", "GCC":"Ala", "GCA":"Ala", "GCG":"Ala", "GAU":"Asp", "GAC":"Asp", "GAA":"Glu", "GAG":"Glu", "GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly"}
+AMINO_BANK={"UUU":"F", "UUC":"F", "UUA":"L", "UUG":"L", "UCU":"S", "UCC":"S", "UCA":"S", "UCG":"S", "UAU":"Y", "UAC":"Y", "UAA":" *", "UAG":" *", "UGU":"C", "UGC":"C", "UGA":" *", "UGG":"W", "CUU":"L", "CUC":"L", "CUA":"L", "CUG":"L", "CCU":"P", "CCC":"P", "CCA":"P", "CCG":"P", "CAU":"H", "CAC":"H", "CAA":"Q", "CAG":"Q", "CGU":"R", "CGC":"R", "CGA":"R", "CGG":"R", "AUU":"I", "AUC":"I", "AUA":"I", "AUG":"M", "ACU":"T", "ACC":"T", "ACA":"T", "ACG":"T", "AAU":"N", "AAC":"N", "AAA":"K", "AAG":"K", "AGU":"S", "AGC":"S", "AGA":"R", "AGG":"R", "GUU":"V", "GUC":"V", "GUA":"V", "GUG":"V", "GCU":"A", "GCC":"A", "GCA":"A", "GCG":"A", "GAU":"D", "GAC":"D", "GAA":"E", "GAG":"E", "GGU":"G", "GGC":"G", "GGA":"G", "GGG":"G"}
 CODON_BANK=[]
+AMINO=BANK=[]
 food_matrix={}
+c=0
+start=0
+codon_string=""
+amino_string=""
 
 
-# Laser
-LASER_COLOR = formatColor(1,0,0)     
-LASER_SIZE = 0.02   
+# LaS
+LAS_COLOR = formatColor(1,0,0)     
+LAS_SIZE = 0.02   
         
 # Capsule graphics
 CAPSULE_COLOR = formatColor(1,1,1)
@@ -87,7 +92,7 @@ class InfoPane:
     else:
       x = pos
       
-    x = self.gridSize + x # Margin
+    x = self.gridSize + x # MRin
     y = self.base + y 
     return x,y
 
@@ -491,11 +496,48 @@ class PacmanGraphics:
     return capsuleImages
   
   def removeFood(self, cell, foodImages ):
+    global c
+    global start
+    global AMINO_BANK
+    global CODON_BANK
+    global codon_string
+    global amino_string
     x, y = cell
     remove_from_screen(foodImages[x][y])
-    CODON_BANK.append(food_matrix[x,y])
-    print(food_matrix[x, y])
-  
+    print str((food_matrix[x, y]))
+    CODON_BANK.append(str((food_matrix[x,y])))
+    if food_matrix[x,y]=="A" and c==0:
+        c+=1
+    elif food_matrix[x,y]=="U" and c==1:
+        c+=1
+    else:
+        c==0
+    if food_matrix[x,y]=="G" and c==2:
+        c+=1
+    else:
+        c==0
+    if c==3:
+        print "START!"
+        c=0
+        start=1
+        codon_string=""
+        del CODON_BANK[:]
+        amino_string="M"
+    if start==1 and len(CODON_BANK)>2:
+        codon_string=""
+        for i in CODON_BANK:
+            codon_string+=str(i)
+        del CODON_BANK[:]
+        amino_acids=[codon_string[i:i+3] for i in range(0, len(codon_string), 3)]
+        for i in amino_acids:
+            if i in AMINO_BANK:
+                amino_string+=AMINO_BANK[i]
+            if len(str(i))%3==0:
+                if AMINO_BANK[i]=="*":
+                    start=0
+                    break
+        print "AMINO ACID " + str(amino_string)
+
   def removeCapsule(self, cell, capsuleImages ):
     x, y = cell
     remove_from_screen(capsuleImages[(x, y)])
