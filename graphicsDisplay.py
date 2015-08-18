@@ -510,7 +510,7 @@ class PacmanGraphics:
         c+=1
     else:
         c==0
-    elif food_matrix[x,y]=="U" and c==1:
+    if food_matrix[x,y]=="U" and c==1:
         c+=1
     else:
         c==0
