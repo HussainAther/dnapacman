@@ -504,26 +504,24 @@ class PacmanGraphics:
     global amino_string
     x, y = cell
     remove_from_screen(foodImages[x][y])
-    print str((food_matrix[x, y]))
     CODON_BANK.append(str((food_matrix[x,y])))
-    checked=0
     if food_matrix[x,y]=="A" and c==0:
         c=1
     elif food_matrix[x,y]=="U" and c==1:
         c=2
     elif food_matrix[x,y]=="G" and c==2:
-        c=3
-    elif food_matrix[x,y]=="":
-        pass
-    else:
-        c=0
-    if c==3:
         print "START!"
         c=0
         start=1
         codon_string=""
         del CODON_BANK[:]
         amino_string="M"
+    elif food_matrix[x,y]=="" or food_matrix[x,y]==" ":
+        pass
+    else:
+        c=0
+#    print str((food_matrix[x, y]))
+#    print str(c)
     if start==1 and len(CODON_BANK)>2:
         codon_string=""
         for i in CODON_BANK:
@@ -533,13 +531,21 @@ class PacmanGraphics:
         for i in amino_acids:
             if i in AMINO_BANK:
                 amino_string+=AMINO_BANK[i]
+                print "AMINO ACID " + str(amino_string)
+            else:
+                start=0
+                c=0
+                del CODON_BANK[:]
+                codon_string=""
+                amino_string="M"
+                break
             if amino_string[-1]=="*":
                 start=0
                 del CODON_BANK[:]
                 codon_string=""
                 amino_string="M"
                 break
-        print "AMINO ACID " + str(amino_string)
+
 
   def removeCapsule(self, cell, capsuleImages ):
     x, y = cell
