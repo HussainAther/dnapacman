@@ -12,7 +12,6 @@ from util import manhattanDistance
 import sys, util, types, time, random
 
 print str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-'    A   C   U   G   U   C   |\n|   | |   |   \  '-.                            |\n'^^^' '^^^'    '--'                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============='       '================'   A   |")
-
 class GameState:
   
   def getLegalActions( self, agentIndex=0 ):
@@ -446,4 +445,4 @@ def runGames( layout, pacman, ghosts, display, numGames, record ):
   
 if __name__ == '__main__':
   args = readCommand( sys.argv[1:] ) # Get game components based on input
-  runGames( **args )        
+  runGames( **args )

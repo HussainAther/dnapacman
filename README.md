@@ -7,14 +7,20 @@
 In DNA Pac-Man, you play as RNA polymerase, an enzyme used to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
 
 
-## Instructions (type the following):
+## Instructions:
 
-    1. Download and unzip the repository 
+    1. Click "Download ZIP" on the right column.
 
-    2. cd dnapacman
+    2. unzip the directory
 
-    3. python pacman.py
+    Either:
 
+    3. cd into the directory from the Terminal and run: python pacman.py
+
+    or:
+    
+    3. Right-click on pacman.py and open with Python Launcher
+    
 ## Options:
 
     -g	Ghost Mode: Can be set to “RandomGhost” (ghosts move randomly) or “DirectionalGhost” (ghosts chase you)

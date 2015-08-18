@@ -508,11 +508,11 @@ class PacmanGraphics:
     CODON_BANK.append(str((food_matrix[x,y])))
     checked=0
     if food_matrix[x,y]=="A" and c==0:
-        c+=1
+        c=1
     elif food_matrix[x,y]=="U" and c==1:
-        c+=1
+        c=2
     elif food_matrix[x,y]=="G" and c==2:
-        c+=1
+        c=3
     elif food_matrix[x,y]=="":
         pass
     else:
