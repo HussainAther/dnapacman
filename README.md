@@ -1,18 +1,6 @@
 # dnapacman
 DNA Pac-Man!!!!! (By Hussain Ather and Jonathan Lu)
 
-================================================.    
- .-.   .-.     .--.                             |    
-| OO| | OO|   / _.-'    A   C   U   G   U   C   |    
-|   | |   |   \  '-.                            |    
-'^^^' '^^^'    '--'                         C   |    
-===============.       .================.       |    
-               |       |                |   U   |    
-               |       |                |       |    
-               |       |                |   U   |    
-               |       |                |       |    
-==============='       '================'   A   |  
-
 Instructions (type the following):
 
 1. unzip dnapacman.zip
