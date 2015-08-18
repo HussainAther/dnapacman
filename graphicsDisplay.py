@@ -48,12 +48,16 @@ PACMAN_COLORS.append(formatColor(0.0/255.0,255.0/255.0,255.0/255.0))
 PACMAN_COLORS.append(formatColor(255.0/255.0,100.0/255.0,0.0/255))
 PACMAN_COLORS.append(formatColor(50.0/255.0,255.0/255.0,200.0/255.0))
 PACMAN_SCALE = 0.5  
-#pacman_speed = 0.25    
+pacman_speed = 0.25
 
 # Food
 FOOD_COLOR = formatColor(1,1,1)     
 FOOD_SIZE = 0.1
-FOOD_BANK=["A", "C", "T", "G"]
+FOOD_BANK=["A", "C", "U", "G"]
+CODON_CHART={"UUU":"Phe", "UUC":"Phe", "UUA":"Leu", "UUG":"Leu", "UCU":"Ser", "UCC":"Ser", "UCA":"Ser", "UCG":"Ser", "UAU":"Tyr", "UAC":"Tyr", "UAA":" *", "UAG":" *", "UGU":"Cys", "UGC":"Cys", "UGA":" *", "UGG":"Trp", "CUU":"Leu", "CUC":"Leu", "CUA":"Leu", "CUG":"Leu", "CCU":"Pro", "CCC":"Pro", "CCA":"Pro", "CCG":"Pro", "CAU":"His", "CAC":"His", "CAA":"Gln", "CAG":"Gln", "CGU":"Arg", "CGC":"Arg", "CGA":"Arg", "CGG":"Arg", "AUU":"Ile", "AUC":"Ile", "AUA":"Ile", "AUG":"Met", "ACU":"Thr", "ACC":"Thr", "ACA":"Thr", "ACG":"Thr", "AAU":"Asn", "AAC":"Asn", "AAA":"Lys", "AAG":"Lys", "AGU":"Ser", "AGC":"Ser", "AGA":"Arg", "AGG":"Arg", "GUU":"Val", "GUC":"Val", "GUA":"Val", "GUG":"Val", "GCU":"Ala", "GCC":"Ala", "GCA":"Ala", "GCG":"Ala", "GAU":"Asp", "GAC":"Asp", "GAA":"Glu", "GAG":"Glu", "GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly"}
+CODON_BANK=[]
+food_matrix={}
+
 
 # Laser
 LASER_COLOR = formatColor(1,0,0)     
@@ -463,10 +467,12 @@ class PacmanGraphics:
       for yNum, cell in enumerate(x):
         if cell: # There's food here
           screen = self.to_screen((xNum, yNum ))
+          a=random.choice(FOOD_BANK)
           dot = text( screen,
                         color = FOOD_COLOR,
-                        contents=random.choice(FOOD_BANK),
-                        font='Helvetica', size=20, style='normal')
+                        contents=a,
+                        font='Arial', size=20, style='normal')
+          food_matrix[xNum,yNum]=a
           imageRow.append(dot)
         else:
           imageRow.append(None)
@@ -487,7 +493,9 @@ class PacmanGraphics:
   def removeFood(self, cell, foodImages ):
     x, y = cell
     remove_from_screen(foodImages[x][y])
-    
+    CODON_BANK.append(food_matrix[x,y])
+    print(food_matrix[x, y])
+  
   def removeCapsule(self, cell, capsuleImages ):
     x, y = cell
     remove_from_screen(capsuleImages[(x, y)])
@@ -586,3 +594,5 @@ class FirstPersonPacmanGraphics(PacmanGraphics):
     
 def add(x, y):
   return (x[0] + y[0], x[1] + y[1])
+
+
