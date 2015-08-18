@@ -509,15 +509,15 @@ class PacmanGraphics:
     if food_matrix[x,y]=="A" and c==0:
         c+=1
     else:
-        c==0
+        c=0
     if food_matrix[x,y]=="U" and c==1:
         c+=1
     else:
-        c==0
+        c=0
     if food_matrix[x,y]=="G" and c==2:
         c+=1
     else:
-        c==0
+        c=0
     if c==3:
         print "START!"
         c=0
