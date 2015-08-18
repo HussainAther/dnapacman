@@ -14,8 +14,8 @@ DNA Pac-Man!!!!! (By Hussain Ather and Jonathan Lu)
 ==============='       '================'   A   |  
 
 Instructions (type the following):
-1. unzip dnapacman_test.zip
-2. cd dnapacman_test
+1. unzip dnapacman.zip
+2. cd dnapacman
 3. python pacman.py
 
 Options:
