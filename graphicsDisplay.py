@@ -506,15 +506,12 @@ class PacmanGraphics:
     remove_from_screen(foodImages[x][y])
     print str((food_matrix[x, y]))
     CODON_BANK.append(str((food_matrix[x,y])))
+    checked=0
     if food_matrix[x,y]=="A" and c==0:
         c+=1
-    else:
-        c=0
-    if food_matrix[x,y]=="U" and c==1:
+    elif food_matrix[x,y]=="U" and c==1:
         c+=1
-    else:
-        c=0
-    if food_matrix[x,y]=="G" and c==2:
+    elif food_matrix[x,y]=="G" and c==2:
         c+=1
     else:
         c=0
