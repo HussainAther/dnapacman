@@ -4,7 +4,7 @@
 
 ## Background:
 
-In DNA Pac-Man, you play as ribosomal RNA in order to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
+In a biological twist on a retro title, Pac-Man plays the role of ribosomal RNA, and he must transcribe sequences of mRNA into proteins. To play, you must eat as many bases as possible to turn them into amino acids and proteins. Start your amino acid chain by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings will print as you play. Good luck!
 
 
 ## Instructions:
