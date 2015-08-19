@@ -442,5 +442,3 @@ def runGames( layout, pacman, ghosts, display, numGames, record ):
 if __name__ == '__main__':
   args = readCommand( sys.argv[1:] ) # Get game components based on input
   runGames( **args )
-
-print ALL_ACIDS

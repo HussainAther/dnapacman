@@ -473,7 +473,7 @@ class PacmanGraphics:
       foodImages.append(imageRow)
       for yNum, cell in enumerate(x):
         if cell: # There's food here
-          screen = self.to_screen((xNum, yNum ))
+          screen = self.to_screen((xNum-.25, yNum+.4 ))
           a=random.choice(FOOD_BANK)
           b=COLOR_BANK[a]
           dot = text( screen,
