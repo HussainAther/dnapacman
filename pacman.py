@@ -9,7 +9,13 @@ from game import Directions
 from game import Actions
 from util import nearestPoint
 from util import manhattanDistance
-import sys, util, types, time, random
+import sys, util, types, time, random, os
+
+def restart_program():
+    """Restarts the current program.
+        Note: this function does not return. Any cleanup action (like saving data) must be done before calling this function."""
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 print str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-'    A   C   U   G   U   C   |\n|   | |   |   \  '-.                            |\n'^^^' '^^^'    '--'                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============='       '================'   A   |")
 class GameState:
@@ -143,12 +149,18 @@ class ClassicGameRules:
     if state.isLose(): self.lose(state, game)
     
   def win( self, state, game ):
-    print "Pacman emerges victorious! Score: %d" % state.data.score
+    print "You won! Score: %d" % state.data.score
+    answer = raw_input("Press Enter to play again.")
     game.gameOver = True
+    if answer.lower().strip() in "\n":
+        restart_program()
 
   def lose( self, state, game ):
-    print "Pacman died! Score: %d" % state.data.score
+    print "You died! Score: %d" % state.data.score
+    answer = raw_input("Press Enter to play again.")
     game.gameOver = True
+    if answer.lower().strip() in "\n":
+        restart_program()
     
 class PacmanRules:
   PACMAN_SPEED=1
@@ -256,7 +268,7 @@ class GhostRules:
       state.data._eaten[agentIndex] = True
     else:
       if not state.data._win:
-        state.data.scoreChange -= 500
+        state.data.scoreChange -= 0
         state.data._lose = True
   collide = staticmethod( collide )
 
