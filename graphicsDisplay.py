@@ -58,6 +58,7 @@ COLOR_BANK={"A":formatColor(.2,.8,1), "U":formatColor(1,0,1),"C":formatColor(1,1
 AMINO_BANK={"UUU":"F", "UUC":"F", "UUA":"L", "UUG":"L", "UCU":"S", "UCC":"S", "UCA":"S", "UCG":"S", "UAU":"Y", "UAC":"Y", "UAA":" *", "UAG":" *", "UGU":"C", "UGC":"C", "UGA":" *", "UGG":"W", "CUU":"L", "CUC":"L", "CUA":"L", "CUG":"L", "CCU":"P", "CCC":"P", "CCA":"P", "CCG":"P", "CAU":"H", "CAC":"H", "CAA":"Q", "CAG":"Q", "CGU":"R", "CGC":"R", "CGA":"R", "CGG":"R", "AUU":"I", "AUC":"I", "AUA":"I", "AUG":"M", "ACU":"T", "ACC":"T", "ACA":"T", "ACG":"T", "AAU":"N", "AAC":"N", "AAA":"K", "AAG":"K", "AGU":"S", "AGC":"S", "AGA":"R", "AGG":"R", "GUU":"V", "GUC":"V", "GUA":"V", "GUG":"V", "GCU":"A", "GCC":"A", "GCA":"A", "GCG":"A", "GAU":"D", "GAC":"D", "GAA":"E", "GAG":"E", "GGU":"G", "GGC":"G", "GGA":"G", "GGG":"G"}
 CODON_BANK=[]
 AMINO=BANK=[]
+ALL_ACIDS=[]
 food_matrix={}
 start=0
 codon_string=""
@@ -529,12 +530,14 @@ class PacmanGraphics:
                 print "AMINO ACID " + str(amino_string)
             else:
                 start=0
+                ALL_ACIDS.append(amino_string)
                 del CODON_BANK[:]
                 codon_string=""
                 amino_string="M"
                 break
             if amino_string[-1]=="*":
                 start=0
+                ALL_ACIDS.append(amino_string)
                 del CODON_BANK[:]
                 codon_string=""
                 amino_string="M"
@@ -639,5 +642,4 @@ class FirstPersonPacmanGraphics(PacmanGraphics):
     
 def add(x, y):
   return (x[0] + y[0], x[1] + y[1])
-
 
