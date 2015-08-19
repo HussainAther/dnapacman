@@ -1,6 +1,6 @@
 # DNA Pac-Man!!!!! (By Hussain Ather and Jonathan Lu) 
 
-![Screenshot](http://imgur.com/HV2pOWy.png)
+![Screenshot](http://i.imgur.com/dylupTc.png)
 
 ## Background:
 

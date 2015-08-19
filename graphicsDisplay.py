@@ -20,9 +20,9 @@ SCORE_COLOR = formatColor(.9, .9, .9)
 
 GHOST_COLORS = []                       
 GHOST_COLORS.append(formatColor(200.0/255.0,200.0/255.0,61.0/255))
-GHOST_COLORS.append(formatColor(0.0/255.0,150.0/255.0,200.0/255.0))
+GHOST_COLORS.append(formatColor(0,1,1))
 GHOST_COLORS.append(formatColor(221.0/255.0,0,0))
-GHOST_COLORS.append(formatColor(0.0/255.0,200.0/255.0,153.0/255.0))
+GHOST_COLORS.append(formatColor(1,.5,.8))
 GHOST_COLORS.append(formatColor(255.0/255.0,150.0/255.0,0))
 GHOST_SHAPE = [                
     ( 0,    0.3 ),            
@@ -54,6 +54,7 @@ pacman_speed = 0.25
 FOOD_COLOR = formatColor(1,1,1)     
 FOOD_SIZE = 0.1
 FOOD_BANK=["A", "C", "U", "G"]
+COLOR_BANK={"A":formatColor(.2,.8,1), "U":formatColor(1,0,1),"C":formatColor(1,1,0), "G":formatColor(1,.5,.5)}
 AMINO_BANK={"UUU":"F", "UUC":"F", "UUA":"L", "UUG":"L", "UCU":"S", "UCC":"S", "UCA":"S", "UCG":"S", "UAU":"Y", "UAC":"Y", "UAA":" *", "UAG":" *", "UGU":"C", "UGC":"C", "UGA":" *", "UGG":"W", "CUU":"L", "CUC":"L", "CUA":"L", "CUG":"L", "CCU":"P", "CCC":"P", "CCA":"P", "CCG":"P", "CAU":"H", "CAC":"H", "CAA":"Q", "CAG":"Q", "CGU":"R", "CGC":"R", "CGA":"R", "CGG":"R", "AUU":"I", "AUC":"I", "AUA":"I", "AUG":"M", "ACU":"T", "ACC":"T", "ACA":"T", "ACG":"T", "AAU":"N", "AAC":"N", "AAA":"K", "AAG":"K", "AGU":"S", "AGC":"S", "AGA":"R", "AGG":"R", "GUU":"V", "GUC":"V", "GUA":"V", "GUG":"V", "GCU":"A", "GCC":"A", "GCA":"A", "GCG":"A", "GAU":"D", "GAC":"D", "GAA":"E", "GAG":"E", "GGU":"G", "GGC":"G", "GGA":"G", "GGG":"G"}
 CODON_BANK=[]
 AMINO=BANK=[]
@@ -227,7 +228,7 @@ class PacmanGraphics:
     begin_graphics(screen_width,    
                    screen_height,
                    BACKGROUND_COLOR,
-                   "CS188 Pacman")
+                   "DNA Pac-Man")
     
   def drawPacman(self, pacman, index):
     position = pacman.getPosition()
@@ -473,8 +474,9 @@ class PacmanGraphics:
         if cell: # There's food here
           screen = self.to_screen((xNum, yNum ))
           a=random.choice(FOOD_BANK)
+          b=COLOR_BANK[a]
           dot = text( screen,
-                        color = FOOD_COLOR,
+                        color = b,
                         contents=a,
                         font='Arial', size=20, style='normal')
           food_matrix[xNum,yNum]=a

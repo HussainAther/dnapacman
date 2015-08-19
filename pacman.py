@@ -329,7 +329,7 @@ def readCommand( argv ):
   args = dict()
 
   # Fix the random seed
-  if options.fixRandomSeed: random.seed('cs188')
+  if options.fixRandomSeed: random.seed('rseed')
   
   # Choose a layout
   import layout
