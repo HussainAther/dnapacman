@@ -300,9 +300,6 @@ def readCommand( argv ):
                     metavar='TYPE', default='KeyboardAgent')
   parser.add_option('-d', '--depth', dest='depth', type='int',
                     help=default('the search DEPTH passed to the agent'), metavar='DEPTH', default=2)
-  parser.add_option('-b', '--betterEvaluation', dest='betterEval', 
-                    help=default('Use the betterEvaluationFunction instead of scoreEvaluationFunction'), 
-                    action='store_true', default=False)
   parser.add_option('-t', '--textGraphics', action='store_true', dest='textGraphics', 
                     help='Display output as text only', default=False)
   parser.add_option('-q', '--quietTextGraphics', action='store_true', dest='quietGraphics', 
@@ -342,7 +339,6 @@ def readCommand( argv ):
 
   pacman = pacmanType() # Figure out how to instantiate pacman
   if 'setDepth' in dir(pacman): pacman.setDepth(options.depth)
-  if 'useBetterEvaluation' in dir(pacman) and options.betterEval: pacman.useBetterEvaluation()
   try:
     import evaluation
     if 'setEvaluation' in dir(pacman):

@@ -59,7 +59,6 @@ AMINO_BANK={"UUU":"F", "UUC":"F", "UUA":"L", "UUG":"L", "UCU":"S", "UCC":"S", "U
 CODON_BANK=[]
 AMINO=BANK=[]
 food_matrix={}
-c=0
 start=0
 codon_string=""
 amino_string=""
@@ -184,9 +183,6 @@ class PacmanGraphics:
     refresh
     
   def swapImages(self, agentIndex, newState):
-    """
-      Changes an image from a ghost to a pacman or vis versa (for capture)
-    """
     prevState, prevImage = self.agentImages[agentIndex]
     for item in prevImage: remove_from_screen(item)
     if newState.isPacman:
@@ -198,6 +194,7 @@ class PacmanGraphics:
     refresh
     
   def update(self, newState):
+    global start
     agentIndex = newState._agentMoved
     agentState = newState.agentStates[agentIndex]
 
@@ -215,8 +212,11 @@ class PacmanGraphics:
       
     if newState._foodEaten != None:
       self.removeFood(newState._foodEaten, self.food)
+      if start==1:
+        newState.score+=20
     if newState._capsuleEaten != None:
       self.removeCapsule(newState._capsuleEaten, self.capsules)
+
     self.infoPane.updateScore(newState.score)
       
   def make_window(self, width, height):
@@ -498,7 +498,6 @@ class PacmanGraphics:
     return capsuleImages
   
   def removeFood(self, cell, foodImages ):
-    global c
     global start
     global AMINO_BANK
     global CODON_BANK
@@ -507,23 +506,17 @@ class PacmanGraphics:
     x, y = cell
     remove_from_screen(foodImages[x][y])
     CODON_BANK.append(str((food_matrix[x,y])))
-    if food_matrix[x,y]=="A" and c==0:
-        c=1
-    elif food_matrix[x,y]=="U" and c==1:
-        c=2
-    elif food_matrix[x,y]=="G" and c==2:
+    if food_matrix[x,y]!="" and food_matrix[x,y]!=" ":
+        codon_string+=str(food_matrix[x,y])
+    if codon_string[-3:]=="AUG":
         print "START!"
-        c=0
         start=1
         codon_string=""
         del CODON_BANK[:]
         amino_string="M"
-    elif food_matrix[x,y]=="" or food_matrix[x,y]==" ":
+    if food_matrix[x,y]!="" and food_matrix[x,y]!=" ":
         pass
-    else:
-        c=0
 #    print str((food_matrix[x, y]))
-#    print str(c)
     if start==1 and len(CODON_BANK)>2:
         codon_string=""
         for i in CODON_BANK:
@@ -536,7 +529,6 @@ class PacmanGraphics:
                 print "AMINO ACID " + str(amino_string)
             else:
                 start=0
-                c=0
                 del CODON_BANK[:]
                 codon_string=""
                 amino_string="M"
