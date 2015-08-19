@@ -4,7 +4,7 @@
 
 ## Background:
 
-In DNA Pac-Man, you play as RNA polymerase, an enzyme used to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
+In DNA Pac-Man, you play as ribosomal RNA in order to transcribe sequences of mRNA into proteins. In this game, you play as Pac-Man, and you must transcribe as many amino acids and proteins as possible. To play, you must start by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid and protein strings appear when you finish. Good luck!
 
 
 ## Instructions:
