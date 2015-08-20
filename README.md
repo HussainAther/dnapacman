@@ -1,12 +1,10 @@
 # DNA Pac-Man
-## (By Hussain Ather and Jonathan Lu) 
 
 ![Screenshot](http://i.imgur.com/hXfYnMp.png)
 
 ## Background:
 
 In a biological twist on a retro title, Pac-Man (playing the role of ribosomal RNA) must transcribe sequences of mRNA into amino acids. You must turn as many bases into amino acids as possible. Start your amino acid chain by finding a START sequence ("AUG") and, after that, transcribe as many bases as possible. Look for the STOP Codon ("UAA", "UAG", and "UGA") to finish an amino acid. Your amino acid strings will print as you play. Good luck!
-
 
 ## Instructions:
 
@@ -33,6 +31,10 @@ In a biological twist on a retro title, Pac-Man (playing the role of ribosomal R
 
     -n	How many games in a row you will play: Can be set to whatever.
 
+## Credits
+
+Hussain Ather (hussainather.com)
+Jonathan Lu
 
 ## AMINO ACID CHART:
 "UUU":"Phe" (F) Phenylalanine
