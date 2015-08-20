@@ -33,9 +33,9 @@ In a biological twist on a retro title, Pac-Man (playing the role of ribosomal R
 
 ## Credits
 
-    -Hussain Ather (http://hussainather.com)
+### Hussain Ather (http://hussainather.com)
 
-    -Jonathan Lu
+### Jonathan Lu
 
 ## AMINO ACID CHART:
 "UUU":"Phe" (F) Phenylalanine
