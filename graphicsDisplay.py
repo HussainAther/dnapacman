@@ -509,7 +509,7 @@ class PacmanGraphics:
     CODON_BANK.append(str((food_matrix[x,y])))
     if food_matrix[x,y]!="" and food_matrix[x,y]!=" ":
         codon_string+=str(food_matrix[x,y])
-    if codon_string[-3:]=="AUG":
+    if (codon_string[-3:]=="AUG" and start==0) or (codon_string[-3:]=="AUG" and start==1 and len(codon_string)%3==0):
         print "START!"
         start=1
         codon_string=""
