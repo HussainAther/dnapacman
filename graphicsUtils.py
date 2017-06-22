@@ -261,9 +261,9 @@ def _adjust_coords( coord_list, x, y ):
 def move_to( object, x, y=None, 
             d_o_e=Tkinter.tkinter.dooneevent, 
             d_w=Tkinter.tkinter.DONT_WAIT ):
-    if y is None:
-        try: x, y = x
-        except: raise  'incomprehensible coordinates' 
+#    if y is None:
+#        try: x, y = x
+#        except: raise  'incomprehensible coordinates' 
         
     horiz = True
     newCoords = []

@@ -9,7 +9,12 @@ from game import Directions
 from game import Actions
 from util import nearestPoint
 from util import manhattanDistance
-import sys, util, types, time, random, os
+import sys
+import util
+import types
+import time
+import random
+import os
 
 def restart_program():
     """Restarts the current program.
@@ -66,13 +71,13 @@ class GameState:
     return self.data.agentStates[1:]
 
   def getGhostState( self, agentIndex ):
-    if agentIndex == 0 or agentIndex >= self.getNumAgents():
-      raise "Invalid index passed to getGhostState"
+#    if agentIndex == 0 or agentIndex >= self.getNumAgents():
+#      raise "Invalid index passed to getGhostState"
     return self.data.agentStates[agentIndex]
   
   def getGhostPosition( self, agentIndex ):
-    if agentIndex == 0:
-      raise "Pacman's index passed to getGhostPosition"
+#    if agentIndex == 0:
+#      raise "Pacman's index passed to getGhostPosition"
     return self.data.agentStates[agentIndex].getPosition()
   
   def getNumAgents( self ):
@@ -171,9 +176,9 @@ class PacmanRules:
   
   def applyAction( state, action ):
     legal = PacmanRules.getLegalActions( state )
-    if action not in legal:
-      raise "Illegal action", action
-    
+#    if action not in legal:
+#      raise "Illegal action", action
+
     pacmanState = state.data.agentStates[0]
     
     # Update Configuration
@@ -227,9 +232,9 @@ class GhostRules:
   def applyAction( state, action, ghostIndex):
 
     legal = GhostRules.getLegalActions( state, ghostIndex )
-    if action not in legal:
-      raise "Illegal ghost action", action
-    
+#    if action not in legal:
+#      raise "Illegal ghost action", action
+#    
     ghostState = state.data.agentStates[ghostIndex]
     speed = GhostRules.GHOST_SPEED
     if ghostState.scaredTimer > 0: speed /= 2.0
@@ -400,8 +405,8 @@ def loadAgent(pacman, nographics):
     except ImportError: 
       continue
     if pacman in dir(module):
-      if nographics and modulename == 'keyboardAgents.py':
-        raise 'Using the keyboard requires graphics (not text display)'
+#      if nographics and modulename == 'keyboardAgents.py':
+#        raise 'Using the keyboard requires graphics (not text display)'
       return getattr(module, pacman)
   raise 'The agent ' + pacman + ' is not specified in any *Agents.py.'
 

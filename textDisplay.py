@@ -1,4 +1,5 @@
-import pacman, time
+import pacman
+import time
 
 DRAW_EVERY = 1
 SLEEP_TIME = 0.5 # This can be overwritten by __init__
