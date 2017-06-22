@@ -1,9 +1,8 @@
-from __future__ import absolute_import
-from .game import Agent
+from game import Agent
 import random
-from .util import chooseFromDistribution
-from .util import manhattanDistance
-from .game import Actions
+from util import chooseFromDistribution
+from util import manhattanDistance
+from game import Actions
 
 class RandomGhost( Agent ):
   def __init__( self, index ):

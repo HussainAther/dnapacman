@@ -3,20 +3,13 @@
 To play your first game, type 'python pacman.py' from the command line.
 The keys are 'a', 's', 'd', and 'w' to move (or arrow keys).  Have fun!
 """
-from __future__ import print_function
-from __future__ import absolute_import
-from .game import GameStateData
-from .game import Game
-from .game import Directions
-from .game import Actions
-from .util import nearestPoint
-from .util import manhattanDistance
-import sys
-from . import util
-import types
-import time
-import random
-import os
+from game import GameStateData
+from game import Game
+from game import Directions
+from game import Actions
+from util import nearestPoint
+from util import manhattanDistance
+import sys, util, types, time, random, os
 
 def restart_program():
     """Restarts the current program.
@@ -25,6 +18,7 @@ def restart_program():
     os.execl(python, python, * sys.argv)
 
 print(str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-'    A   C   U   G   U   C   |\n|   | |   |   \  '-.                            |\n'^^^' '^^^'    '--'                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============='       '================'   A   |"))
+
 class GameState:
   
   def getLegalActions( self, agentIndex=0 ):
@@ -73,13 +67,13 @@ class GameState:
     return self.data.agentStates[1:]
 
   def getGhostState( self, agentIndex ):
-#    if agentIndex == 0 or agentIndex >= self.getNumAgents():
-#      raise "Invalid index passed to getGhostState"
+    if agentIndex == 0 or agentIndex >= self.getNumAgents():
+      raise "Invalid index passed to getGhostState"
     return self.data.agentStates[agentIndex]
   
   def getGhostPosition( self, agentIndex ):
-#    if agentIndex == 0:
-#      raise "Pacman's index passed to getGhostPosition"
+    if agentIndex == 0:
+      raise "Pacman's index passed to getGhostPosition"
     return self.data.agentStates[agentIndex].getPosition()
   
   def getNumAgents( self ):
@@ -155,15 +149,15 @@ class ClassicGameRules:
     if state.isWin(): self.win(state, game)
     if state.isLose(): self.lose(state, game)
     
-  def win( self, state, game ):
-    print("You won! Score: %d" % state.data.score)
+  def win(self, state, game):
+    print "You won! Score: %d" % str(state.data.score)
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
         restart_program()
 
   def lose( self, state, game ):
-    print("You died! Score: %d" % state.data.score)
+    print "You died! Score: %d" % str(state.data.score)
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
@@ -178,8 +172,8 @@ class PacmanRules:
   
   def applyAction( state, action ):
     legal = PacmanRules.getLegalActions( state )
-#    if action not in legal:
-#      raise "Illegal action", action
+    if action not in legal:
+        raise "Illegal action" + str(action)
 
     pacmanState = state.data.agentStates[0]
     
@@ -234,9 +228,9 @@ class GhostRules:
   def applyAction( state, action, ghostIndex):
 
     legal = GhostRules.getLegalActions( state, ghostIndex )
-#    if action not in legal:
-#      raise "Illegal ghost action", action
-#    
+    if action not in legal:
+      "Illegal ghost action", action
+
     ghostState = state.data.agentStates[ghostIndex]
     speed = GhostRules.GHOST_SPEED
     if ghostState.scaredTimer > 0: speed /= 2.0
@@ -348,7 +342,7 @@ def readCommand( argv ):
   if options.fixRandomSeed: random.seed('rseed')
   
   # Choose a layout
-  from . import layout
+  import layout
   args['layout'] = layout.getLayout( options.layout )
   if args['layout'] == None: raise "The layout " + options.layout + " cannot be found"
   
@@ -368,27 +362,27 @@ def readCommand( argv ):
   args['pacman'] = pacman
     
   # Choose a ghost agent
-  from . import ghostAgents
+  import ghostAgents
   ghostType = getattr(ghostAgents, options.ghost)
   args['ghosts'] = [ghostType( i+1 ) for i in range( options.numGhosts )]
     
   # Choose a display format
   if options.quietGraphics:
-      from . import textDisplay
+      import textDisplay
       args['display'] = textDisplay.NullGraphics()
   elif options.textGraphics:
-    from . import textDisplay
+    import textDisplay
     textDisplay.SLEEP_TIME = options.delay
     args['display'] = textDisplay.PacmanGraphics()      
   else:
-    from . import graphicsDisplay
+    import graphicsDisplay
     args['display'] = graphicsDisplay.PacmanGraphics(options.zoom)
   args['numGames'] = options.numGames
   args['record'] = options.record
   
   # Special case: recorded games don't use the runGames method or args structure
   if options.gameToReplay != None:
-    print('Replaying recorded game %s.' % options.gameToReplay)
+#    print 'Replaying recorded game %s.' % options.gameToReplay
     import cPickle
     recorded = cPickle.load(open(options.gameToReplay))
     recorded['display'] = args['display']
@@ -407,8 +401,8 @@ def loadAgent(pacman, nographics):
     except ImportError: 
       continue
     if pacman in dir(module):
-#      if nographics and modulename == 'keyboardAgents.py':
-#        raise 'Using the keyboard requires graphics (not text display)'
+      if nographics and modulename == 'keyboardAgents.py':
+        raise 'Using the keyboard requires graphics (not text display)'
       return getattr(module, pacman)
   raise 'The agent ' + pacman + ' is not specified in any *Agents.py.'
 
@@ -451,11 +445,11 @@ def runGames( layout, pacman, ghosts, display, numGames, record ):
   if numGames > 1:
     scores = [game.state.getScore() for game in games]
     wins = [game.state.isWin() for game in games]
-    print('Average Score:', sum(scores) / float(numGames)) 
-    print('Scores:       ', ', '.join([str(score) for score in scores]))
-    print('Win Rate:     ', wins.count(True) / float(numGames))
-    print('Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in wins]))
-    
+    print 'Average Score:', sum(scores) / float(numGames) 
+    print 'Scores:       ', ', '.join([str(score) for score in scores])
+    print 'Win Rate:     ', wins.count(True) / float(numGames)
+    print 'Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in wins])
+
   return games
   
 if __name__ == '__main__':
