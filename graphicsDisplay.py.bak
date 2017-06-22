@@ -1,6 +1,4 @@
-from __future__ import print_function
-from __future__ import absolute_import
-from .graphicsUtils import *        
+from graphicsUtils import *        
 import math, time
 import random
 
@@ -512,7 +510,7 @@ class PacmanGraphics:
     if food_matrix[x,y]!="" and food_matrix[x,y]!=" ":
         codon_string+=str(food_matrix[x,y])
     if (codon_string[-3:]=="AUG" and start==0) or (codon_string[-3:]=="AUG" and start==1 and len(codon_string)%3==0):
-        print("START!")
+        print "START!"
         start=1
         codon_string=""
         del CODON_BANK[:]
@@ -529,7 +527,7 @@ class PacmanGraphics:
         for i in amino_acids:
             if i in AMINO_BANK:
                 amino_string+=AMINO_BANK[i]
-                print("AMINO ACID " + str(amino_string))
+                print "AMINO ACID " + str(amino_string)
             else:
                 start=0
                 ALL_ACIDS.append(amino_string)

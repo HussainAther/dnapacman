@@ -1,4 +1,3 @@
-from __future__ import print_function
 import sys
 import inspect
 import heapq, random
@@ -383,7 +382,7 @@ class Counter(dict):
     return addend
     
 def raiseNotDefined():
-  print("Method not implemented: %s" % inspect.stack()[1][3])    
+  print "Method not implemented: %s" % inspect.stack()[1][3]    
   sys.exit(1)
 
 def normalize(vectorOrCounter):

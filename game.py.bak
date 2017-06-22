@@ -1,7 +1,5 @@
-from __future__ import print_function
-from __future__ import absolute_import
-from .util import *
-from .util import raiseNotDefined
+from util import *
+from util import raiseNotDefined
 import time
 
 #######################
@@ -65,7 +63,7 @@ class Configuration:
   def __hash__(self):
     x = hash(self.pos)
     y = hash(self.direction)
-    return (x + 13 * y) % sys.maxsize
+    return (x + 13 * y) % sys.maxint
   
   def __str__(self):
     return "(x,y)="+str(self.pos)+", "+str(self.direction)
@@ -320,8 +318,8 @@ class GameStateData:
     for i, state in enumerate( self.agentStates ):
       try:
         hash(state)
-      except TypeError as e:
-          print(e)
+      except TypeError, e:
+          print e
           hash(state)
     return hash(tuple(self.agentStates)) + 13*hash(self.food) + 113* hash(tuple(self.capsules)) + 7 * hash(self.score)
 
