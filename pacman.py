@@ -150,14 +150,14 @@ class ClassicGameRules:
     if state.isLose(): self.lose(state, game)
     
   def win(self, state, game):
-    print "You won! Score: %d" % str(state.data.score)
+    print "You won! Score: %d" % state.data.score
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
         restart_program()
 
   def lose( self, state, game ):
-    print "You died! Score: %d" % str(state.data.score)
+    print "You died! Score: %d" % state.data.score
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
