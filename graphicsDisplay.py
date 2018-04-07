@@ -2,13 +2,6 @@ from graphicsUtils import *
 import math, time
 import random
 
-###########################
-#  GRAPHICS DISPLAY CODE  #
-###########################
-
-# Most code by Dan Klein and John Denero written or rewritten for cs188, UC Berkeley.
-# Some code from a Pacman implementation by LiveWires, and used / modified with permission.
-
 FRAME_TIME=0.1 # The time that pacman's animation last
 PAUSE_TIME=0   # Pause time between frames
 DEFAULT_GRID_SIZE = 30.0
