@@ -119,6 +119,8 @@ class GameState:
     return state
     
   def __eq__( self, other ):
+    if other == None:
+        return self.data == other
     return self.data == other.data
                                                       
   def __hash__( self ):
@@ -150,14 +152,14 @@ class ClassicGameRules:
     if state.isLose(): self.lose(state, game)
     
   def win(self, state, game):
-    print "You won! Score: %d" % state.data.score
+    print("You won! Score: %d" % state.data.score)
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
         restart_program()
 
   def lose( self, state, game ):
-    print "You died! Score: %d" % state.data.score
+    print("You died! Score: %d" % state.data.score)
     answer = raw_input("Press Enter to play again.")
     game.gameOver = True
     if answer.lower().strip() in "\n":
@@ -445,10 +447,10 @@ def runGames( layout, pacman, ghosts, display, numGames, record ):
   if numGames > 1:
     scores = [game.state.getScore() for game in games]
     wins = [game.state.isWin() for game in games]
-    print 'Average Score:', sum(scores) / float(numGames) 
-    print 'Scores:       ', ', '.join([str(score) for score in scores])
-    print 'Win Rate:     ', wins.count(True) / float(numGames)
-    print 'Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in wins])
+    print('Average Score:', sum(scores) / float(numGames))
+    print('Scores:       ', ', '.join([str(score) for score in scores]))
+    print('Win Rate:     ', wins.count(True) / float(numGames))
+    print('Record:       ', ', '.join([ ['Loss', 'Win'][int(w)] for w in wins]))
 
   return games
   

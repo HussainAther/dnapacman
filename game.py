@@ -318,8 +318,8 @@ class GameStateData:
     for i, state in enumerate( self.agentStates ):
       try:
         hash(state)
-      except TypeError, e:
-          print e
+      except TypeError as e:
+          print(e)
           hash(state)
     return hash(tuple(self.agentStates)) + 13*hash(self.food) + 113* hash(tuple(self.capsules)) + 7 * hash(self.score)
 
