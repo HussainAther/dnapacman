@@ -7,10 +7,10 @@ class KeyboardAgent(Agent):
   An agent controlled by the keyboard.
   """
   # NOTE: Arrow keys also work.
-  WEST_KEY  = 'a' 
-  EAST_KEY  = 'd' 
-  NORTH_KEY = 'w' 
-  SOUTH_KEY = 's'
+  WEST_KEY  = "a" 
+  EAST_KEY  = "d" 
+  NORTH_KEY = "w"
+  SOUTH_KEY = "s"
 
   def __init__( self, index = 0 ):
     
