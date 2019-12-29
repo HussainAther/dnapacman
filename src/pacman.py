@@ -20,7 +20,7 @@ def restart_program():
     python = sys.executable
     os.execl(python, python, * sys.argv)
 
-print(str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-"    A   C   U   G   U   C   |\n|   | |   |   \  "-.                            |\n"^^^" "^^^"    "--"                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============="       "================"   A   |"))
+# print(str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-"    A   C   U   G   U   C   |\n|   | |   |   \  "-.                            |\n"^^^" "^^^"    "--"                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============="       "================"   A   |"))
 
 class GameState:
   
@@ -71,12 +71,12 @@ class GameState:
     
     def getGhostState( self, agentIndex ):
         if agentIndex == 0 or agentIndex >= self.getNumAgents():
-            raise "Invalid index passed to getGhostState"
+            raise BaseException("Invalid index passed to getGhostState")
         return self.data.agentStates[agentIndex]
     
     def getGhostPosition( self, agentIndex ):
         if agentIndex == 0:
-            raise "Pacman"s index passed to getGhostPosition"
+            raise BaseException("Pacman's index passed to getGhostPosition")
         return self.data.agentStates[agentIndex].getPosition()
     
     def getNumAgents( self ):
@@ -178,7 +178,7 @@ class PacmanRules:
   def applyAction( state, action ):
     legal = PacmanRules.getLegalActions( state )
     if action not in legal:
-        raise "Illegal action" + str(action)
+        raise BaseException("Illegal action" + str(action))
 
     pacmanState = state.data.agentStates[0]
     
@@ -349,7 +349,7 @@ def readCommand( argv ):
     # Choose a layout
     import layout
     args["layout"] = layout.getLayout( options.layout )
-    if args["layout"] == None: raise "The layout " + options.layout + " cannot be found"
+    if args["layout"] == None: raise BaseException("The layout " + options.layout + " cannot be found")
     
     # Choose a pacman agent
     noKeyboard = options.gameToReplay == None and (options.textGraphics or options.quietGraphics)
