@@ -10,11 +10,11 @@ In a biological twist on a retro title, Pac-Man (playing the role of ribosomal R
 
     1. Click "Download ZIP" on the right column.
 
-    2. unzip the directory
+    2. Unzip the directory
 
     Either:
 
-    3. cd into the directory from the Terminal and run: python pacman.py
+    3. cd into the directory from the Terminal and run: python src/pacman.py
 
     or:
     
