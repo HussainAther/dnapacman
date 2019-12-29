@@ -1,41 +1,35 @@
 #!/bin/python3.7
 
-import math
-import random
-import string
-import sys
-import time
-import types
+import math, random, string, sys, time, tkinter, types
 
-if sys.version_info[0] == 3:
-    # for Python3
-    from tkinter import *   ## notice lowercase 't' in tkinter here
-else:
-    # for Python2
-    from Tkinter import *   ## notice capitalized T in Tkinter
+_Windows = sys.platform == "win32" # true if on Win95/98/NT
 
-_Windows = sys.platform == 'win32'	# True if on Win95/98/NT
-
-_root_window	= None			# The root window for graphics output
-_canvas		= None			# The canvas which holds graphics
-_canvas_xs	= None			# Size of canvas object
-_canvas_ys	= None
-_canvas_x	= None			# Current position on canvas
-_canvas_y	= None
-_canvas_col	= None			# Current colour (set to black below)
-_canvas_tsize	= 12
+_root_window = None # the root window for graphics output
+_canvas = None # the canvas which holds graphics
+_canvas_xs = None # size of canvas object
+_canvas_ys = None
+_canvas_x = None # current position on canvas
+_canvas_y = None
+_canvas_col = None # current color (set to black below)
+_canvas_tsize = 12
 _canvas_tserifs	= 0
 
 def formatColor(r,g,b):
-  return '#%02x%02x%02x' % (int(r*255), int(g*255), int(b*255))
+    """
+    Format the color in RGB style.
+    """
+    return "#%02x%02x%02x" % (int(r*255), int(g*255), int(b*255))
 
 def colorToVector(color):
-  return map(lambda x: int(x, 16)/256.0, [color[1:3], color[3:5], color[5:7]])
+    """
+    Convert the color RGB to a vector.
+    """
+    return map(lambda x: int(x, 16)/256.0, [color[1:3], color[3:5], color[5:7]])
 
 if _Windows:
-    _canvas_tfonts = ['times new roman', 'lucida console']
+    _canvas_tfonts = ["times new roman", "lucida console"]
 else:
-    _canvas_tfonts = ['times', 'lucidasans-24']
+    _canvas_tfonts = ["times", "lucidasans-24"]
     pass # XXX need defaults here
 
 def sleep( secs ):
@@ -47,35 +41,38 @@ def sleep( secs ):
         _root_window.mainloop()
 
 def begin_graphics( width=640, height=480, color=formatColor(0,0,0), title=None ):
+    """
+    Create the initial graphics based on the user's input.
+    """
 
     global _root_window, _canvas, _canvas_x, _canvas_y, _canvas_xs, _canvas_ys
 
-    # Check for duplicate call
+    # Check for duplicate call.
     if _root_window is not None:
         # Lose the window.
         _root_window.destroy()
-	# raise ExAlreadyStarted('begin_graphics() called twice')
+	# raise ExAlreadyStarted("begin_graphics() called twice")
 
-    # Save the canvas size parameters
+    # Save the canvas size parameters.
     _canvas_xs, _canvas_ys = width-1, height-1
     _canvas_x, _canvas_y  = 0, _canvas_ys
 
-    # Create the root window
+    # Create the root window.
     _root_window = tkinter.Tk()
-    _root_window.protocol( 'WM_DELETE_WINDOW', _destroy_window )
-    _root_window.title( title or 'Graphics Window' )
+    _root_window.protocol( "WM_DELETE_WINDOW", _destroy_window )
+    _root_window.title( title or "Graphics Window" )
     _root_window.resizable( 0, 0 )
 
-    # Create the canvas object
+    # Create the canvas object.
     try:
-      _canvas = tkinter.Canvas( _root_window, width=width, height=height,background=color)
-      _canvas.pack()
-      _canvas.update()
+        _canvas = tkinter.Canvas( _root_window, width=width, height=height,background=color)
+        _canvas.pack()
+        _canvas.update()
     except:
-      _root_window = None
-      raise
+        _root_window = None
+        raise
 
-    # Bind to key-down and key-up events
+    # Bind to key-down and key-up events.
     _root_window.bind( "<KeyPress>", _keypress )
     _root_window.bind( "<KeyRelease>", _keyrelease )
     _root_window.bind( "<FocusIn>", _clear_keys )
@@ -83,56 +80,70 @@ def begin_graphics( width=640, height=480, color=formatColor(0,0,0), title=None 
     _clear_keys()
 
 def _destroy_window( event=None ):
-    sys.exit(0)
-#    global _root_window
-#    _root_window.destroy()
-#    _root_window = None
-    #print "DESTROY"
+      sys.exit(0)
+#      global _root_window
+#      _root_window.destroy()
+#      _root_window = None
 
 def end_graphics():
+    """
+    Get rid of the graphics in the current display.
+    """
     global _root_window, _canvas, _mouse_enabled
     try:
-      sleep( 1 )
-      _root_window.destroy()
+        sleep( 1 )
+        _root_window.destroy()
     finally:
-      _root_window   = None
-      _canvas        = None
-      _mouse_enabled = 0
-      _clear_keys()
+        _root_window = None
+        _canvas = None
+        _mouse_enabled = 0
+        _clear_keys()
 
 def clear_screen( background=None ):
+    """
+    Clear the screen.
+    """
 
     global _canvas_x, _canvas_y
 
-    # Remove all drawn items
-    _canvas.delete( 'all' )
+    # Remove all drawn items.
+    _canvas.delete( "all" )
 
-    # Reset default coordinates
+    # Reset default coordinates.
     # XXX Should any other state be reset?
     _canvas_x, _canvas_y = 0, _canvas_ys
 
 def polygon( coords, color, filled = 1, smoothed = 1, behind = False ):
-  c = []
-  for coord in coords:
-    c.append(coord[0])
-    c.append(coord[1])
-  poly = _canvas.create_polygon( c, outline=color, fill=color, smooth = smoothed )
-  if  behind:    _canvas.tag_lower(poly, 1)
-  return poly
+    """
+    Define a polygon with coordinates, color, and other attributes.
+    """
+    c = []
+    for coord in coords:
+        c.append(coord[0])
+        c.append(coord[1])
+    poly = _canvas.create_polygon( c, outline=color, fill=color, smooth = smoothed )
+    if  behind:    _canvas.tag_lower(poly, 1)
+    return poly
   
 def square( pos, r, color, filled=1, behind=False):
-  x,y = pos
-  coords = [(x-r, y-r),(x+r, y-r),(x+r, y+r),(x-r, y+r)]
-  return polygon(coords, color, filled, 0, behind=behind)
+    """
+    Define a square with position and color.
+    """
+    x,y = pos
+    coords = [(x-r, y-r),(x+r, y-r),(x+r, y+r),(x-r, y+r)]
+    return polygon(coords, color, filled, 0, behind=behind)
 
-def circle( pos, r, color, filled=0, endpoints=None, style='pieslice', width=2):
+def circle( pos, r, color, filled=0, endpoints=None, style="pieslice", width=2):
+    """
+    Define a circle.
+    """
     x,y = pos
     x0, x1 = x - r - 1, x + r
     y0, y1 = y - r - 1, y + r
     if endpoints == None:
-      e = [0,359]
+        e = [0,359]
     else:
-      e = list(endpoints)
+        e = list(endpoints)
     while e[0] > e[1]: e[1] = e[1] + 360
 
     return _canvas.create_arc( x0, y0, x1, y1, 
@@ -140,9 +151,15 @@ def circle( pos, r, color, filled=0, endpoints=None, style='pieslice', width=2):
                                               extent=e[1]-e[0], start=e[0], 
                                               style=style, width=width)
 def refresh():
-      _canvas.update_idletasks()
+    """
+    Update the canvas.
+    """"
+    _canvas.update_idletasks()
                                                     
 def moveCircle(id, pos, r, endpoints=None):
+    """
+    Move the Pac-Man circle.
+    """
     global _canvas_x, _canvas_y
     
     x,y = pos
@@ -151,35 +168,50 @@ def moveCircle(id, pos, r, endpoints=None):
     x0, x1 = x - r - 1, x + r
     y0, y1 = y - r - 1, y + r
     if endpoints == None:
-      e = [0,359]
+        e = [0,359]
     else:
-      e = list(endpoints)
+        e = list(endpoints)
     while e[0] > e[1]: e[1] = e[1] + 360
 
-    edit(id, ('start', e[0]), ('extent', e[1] - e[0]))
+    edit(id, ("start", e[0]), ("extent", e[1] - e[0]))
     move_to(id, x0, y0)
 
 def edit(id, *args ):
+    """
+    Edit the canvas arguments.
+    """
     _canvas.itemconfigure(id, **dict(args))
     
-def text( pos, color, contents, font='Helvetica', size=12, style='normal'):
+def text( pos, color, contents, font="Helvetica", size=12, style="normal"):
+    """
+    Configure the text.
+    """
     global _canvas_x, _canvas_y
     x,y = pos
     font = (font, str(size), style)
-    return _canvas.create_text(x,y,anchor='nw', fill=color, text=contents, font=font)
+    return _canvas.create_text(x,y,anchor="nw", fill=color, text=contents, font=font)
 
-def changeText(id, newText, font=None, size=12, style='normal'):
-  _canvas.itemconfigure(id, text=newText)
-  if font != None:
-    _canvas.itemconfigure(id, font=(font, '-%d'%size, style))
+def changeText(id, newText, font=None, size=12, style="normal"):
+    """
+    Change the text.
+    """
+    _canvas.itemconfigure(id, text=newText)
+    if font != None:
+        _canvas.itemconfigure(id, font=(font, "-%d"%size, style))
 
 def changeColor(id, newColor):
-  _canvas.itemconfigure(id, fill=newColor)
+    """
+    Change the color of an item.
+    """
+    _canvas.itemconfigure(id, fill=newColor)
 
 def line(here, there, color =  formatColor(0,0,0), width=2):
-  x0,y0 = here[0], here[1]
-  x1,y1 = there[0], there[1]
-  return _canvas.create_line(x0, y0, x1, y1, fill=color, width=width)
+    """
+    Create a line.
+    """
+    x0,y0 = here[0], here[1]
+    x1,y1 = there[0], there[1]
+    return _canvas.create_line(x0, y0, x1, y1, fill=color, width=width)
 
 ##############################################################################
 ### Keypress handling ########################################################
@@ -195,7 +227,7 @@ _got_release = None
 
 def _keypress( event ):
     global _got_release
-    #remap_arrows(event)
+#    remap_arrows(event)
     _keysdown[event.keysym] = 1
     _keyswaiting[event.keysym] = 1
 #    print event.char, event.keycode
@@ -205,25 +237,30 @@ def _keyrelease( event ):
     global _got_release
     #remap_arrows(event)
     try:
-      del _keysdown[event.keysym]
+        del _keysdown[event.keysym]
     except:
-      pass
+        pass
     _got_release = 1
     
 def remap_arrows(event):
-    # TURN ARROW PRESSES INTO LETTERS (SHOULD BE IN KEYBOARD AGENT)
-    if event.char in ['a', 's', 'd', 'w']:
-      return
+    """
+    Turn arrow presses into letters.
+    """
+    if event.char in ["a", "s", "d", "w"]:
+        return
     if event.keycode in [37, 101]: # LEFT ARROW (win / x)
-      event.char = 'a'
+        event.char = "a"
     if event.keycode in [38, 99]: # UP ARROW
-      event.char = 'w'
+        event.char = "w"
     if event.keycode in [39, 102]: # RIGHT ARROW
-      event.char = 'd'
+        event.char = "d"
     if event.keycode in [40, 104]: # DOWN ARROW
-      event.char = 's'
+        event.char = "s"
 
 def _clear_keys( event=None ):
+    """
+    Clear the keys.
+    """
     global _keysdown, _got_release, _keyswaiting
     _keysdown = {}
     _keyswaiting = {}
@@ -231,16 +268,22 @@ def _clear_keys( event=None ):
 
 def keys_pressed( d_o_e=tkinter.Tk().dooneevent,
                  d_w=tkinter._tkinter.DONT_WAIT ):
+    """
+    Get the keys pressed.
+    """
     d_o_e( d_w )
     if _got_release:
-      d_o_e( d_w )
+        d_o_e( d_w )
     return _keysdown.keys()
 
 def keys_waiting():
-  global _keyswaiting
-  keys = _keyswaiting.keys()
-  _keyswaiting = {}
-  return keys
+    """
+    Get the keys that haven't been processed yet.
+    """
+    global _keyswaiting
+    keys = _keyswaiting.keys()
+    _keyswaiting = {}
+    return keys
 
 # Block for a list of keys...
 
@@ -270,7 +313,7 @@ def move_to( object, x, y=None,
             d_w=tkinter._tkinter.DONT_WAIT ):
     if y is None:
         try: x, y = x
-        except: raise  'incomprehensible coordinates' 
+        except: raise  "incomprehensible coordinates" 
         
     horiz = True
     newCoords = []
@@ -292,7 +335,7 @@ def move_by( object, x, y=None,
             d_w=tkinter._tkinter.DONT_WAIT ):
     if y is None:
         try: x, y = x
-        except: raise Exception('incomprehensible coordinates')
+        except: raise Exception("incomprehensible coordinates")
     
     horiz = True
     newCoords = []
@@ -322,7 +365,7 @@ ghost_shape = [
     (-0.25, -0.75 )
   ]
 
-if __name__ == '__main__':
+if __name__ == "__main__":
   begin_graphics()
   clear_screen()
   ghost_shape = [(x * 10 + 20, y*10 + 20) for x, y in ghost_shape]
