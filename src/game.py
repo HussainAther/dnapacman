@@ -1,187 +1,240 @@
+import time
+
 from util import *
 from util import raiseNotDefined
-import time
 
 #######################
 # Parts worth reading #
 #######################
 
 class Agent:
-  """
-  An agent must define a getAction method, but may also define the
-  following methods which will be called if they exist:
-  
-  def registerInitialState(self, state): # inspects the starting state
-  """
-  def __init__(self, index=0):
-    self.index = index
-      
-  def getAction(self, state):
     """
-    The Agent will receive a GameState (from either {pacman, capture, sonar}.py) and
-    must return an action from Directions.{North, South, East, West, Stop}
+    An agent must define a getAction method, but may also define the
+    following methods which will be called if they exist:
+    
+    def registerInitialState(self, state): # inspects the starting state
     """
-    raiseNotDefined()
+    def __init__(self, index=0):
+       """
+       Initialize the agent (user) without an index.   
+       """
+       self.index = index
+        
+    def getAction(self, state):
+        """
+        The Agent will receive a GameState (from either {pacman, capture, sonar}.py) and
+        must return an action from Directions.{North, South, East, West, Stop}
+        """
+        raiseNotDefined()
 
 class Directions:
-  NORTH = 'North'
-  SOUTH = 'South'
-  EAST = 'East'
-  WEST = 'West'
-  STOP = 'Stop'
-  
-  LEFT =       {NORTH: WEST,
-                 SOUTH: EAST,
-                 EAST:  NORTH,
-                 WEST:  SOUTH,
-                 STOP:  STOP}
-  
-  RIGHT =      dict([(y,x) for x, y in LEFT.items()])
+    """
+    Map the directions. 
+    """
+    NORTH = "North"
+    SOUTH = "South"
+    EAST = "East"
+    WEST = "West"
+    STOP = "Stop"
+    LEFT =       {NORTH: WEST,
+                   SOUTH: EAST,
+                   EAST:  NORTH,
+                   WEST:  SOUTH,
+                   STOP:  STOP}
+    RIGHT =      dict([(y,x) for x, y in LEFT.items()])
 
 class Configuration:
-  """
-  A Configuration holds the (x,y) coordinate of a character, along with its 
-  traveling direction.
-  
-  The convention for positions, like a graph, is that (0,0) is the lower left corner, x increases 
-  horizontally and y increases vertically.  Therefore, north is the direction of increasing y, or (0,1).
-  """
-  
-  def __init__(self, pos, direction):
-    self.pos = pos
-    self.direction = direction
-    
-  def getPosition(self):
-    return (self.pos)
-  
-  def getDirection(self):
-    return self.direction
-  
-  def __eq__(self, other):
-    return (self.pos == other.pos and self.direction == other.direction)
-  
-  def __hash__(self):
-    x = hash(self.pos)
-    y = hash(self.direction)
-    return (x + 13 * y) % sys.maxint
-  
-  def __str__(self):
-    return "(x,y)="+str(self.pos)+", "+str(self.direction)
-  
-  def generateSuccessor(self, vector):
     """
-    Generates a new configuration reached by translating the current
-    configuration by the action vector.  This is a low-level call and does
-    not attempt to respect the legality of the movement.
+    A Configuration holds the (x,y) coordinate of a character, along with its 
+    traveling direction.
     
-    Actions are movement vectors.
+    The convention for positions, like a graph, is that (0,0) is the lower left corner, x increases 
+    horizontally and y increases vertically.  Therefore, north is the direction of increasing y, or (0,1).
     """
-    x, y= self.pos
-    dx, dy = vector
-    direction = Actions.vectorToDirection(vector)
-    if direction == Directions.STOP: 
-      direction = self.direction # There is no stop direction
-    return Configuration((x + dx, y+dy), direction)
+    
+    def __init__(self, pos, direction):
+        """
+        Initialize the configuration with position and direction.
+        """
+        self.pos = pos
+        self.direction = direction
+      
+    def getPosition(self):
+        """
+        Return the current position.
+        """
+        return (self.pos)
+    
+    def getDirection(self):
+        """
+        Return the current direction.
+        """
+        return self.direction
+    
+    def __eq__(self, other):
+        """
+        Check if the position and direction equal one another.
+        """
+        return (self.pos == other.pos and self.direction == other.direction)
+    
+    def __hash__(self):
+        """
+        Create a hash mapping position and direction to x and y.
+        """
+        x = hash(self.pos)
+        y = hash(self.direction)
+        return (x + 13 * y) % sys.maxint
+    
+    def __str__(self):
+      return "(x,y)="+str(self.pos)+", "+str(self.direction)
+    
+    def generateSuccessor(self, vector):
+        """
+        Generate a new configuration reached by translating the current
+        configuration by the action vector.  This is a low-level call and does
+        not attempt to respect the legality of the movement.
+        
+        Actions are movement vectors.
+        """
+        x, y= self.pos
+        dx, dy = vector
+        direction = Actions.vectorToDirection(vector)
+        if direction == Directions.STOP: 
+            direction = self.direction # There is no stop direction.
+        return Configuration((x + dx, y+dy), direction)
 
 class AgentState:
-  """
-  AgentStates hold the state of an agent (configuration, speed, scared, etc).
-  """
+    """
+    AgentStates hold the state of an agent (configuration, speed, scared, etc).
+    """
 
-  def __init__( self, startConfiguration, isPacman ):
-    self.start = startConfiguration
-    self.configuration = startConfiguration
-    self.isPacman = isPacman
-    self.scaredTimer = 0
+    def __init__( self, startConfiguration, isPacman ):
+        self.start = startConfiguration
+        self.configuration = startConfiguration
+        self.isPacman = isPacman
+        self.scaredTimer = 0
 
-  def __str__( self ):
-    if self.isPacman: 
-      return "Pacman: " + str( self.configuration )
-    else:
-      return "Ghost: " + str( self.configuration )
+    def __str__( self ):
+        """
+        Return strings of the agent.
+        """
+        if self.isPacman: 
+            return "Pacman: " + str( self.configuration )
+        else:
+            return "Ghost: " + str( self.configuration )
   
-  def __eq__( self, other ):
-    if other == None:
-      return False
-    return self.configuration == other.configuration and self.scaredTimer == other.scaredTimer
+    def __eq__( self, other ):
+        """
+        Check if configuration or timer have changed.
+        """
+        if other == None:
+            return False
+        return self.configuration == other.configuration and self.scaredTimer == other.scaredTimer
   
-  def __hash__(self):
-    return hash(self.configuration) + 13* hash(self.scaredTimer)
+      def __hash__(self):
+          """
+          Create a hash of how much scared time there is.
+          """
+          return hash(self.configuration) + 13* hash(self.scaredTimer)
   
-  def copy( self ):
-    state = AgentState( self.start, self.isPacman )
-    state.configuration = self.configuration
-    state.scaredTimer = self.scaredTimer
-    return state
+      def copy( self ):
+          """
+          Create a copy of the current state.
+          """
+          state = AgentState( self.start, self.isPacman )
+          state.configuration = self.configuration
+          state.scaredTimer = self.scaredTimer
+          return state
   
-  def getPosition(self):
-    return self.configuration.getPosition()
+      def getPosition(self):
+          """
+          Get the current position.
+          """
+          return self.configuration.getPosition()
 
-  def getDirection(self):
-    return self.configuration.getDirection()
+      def getDirection(self):
+          """
+          Get the direction of the current configuration.
+          """
+          return self.configuration.getDirection()
   
 class Grid:
-  """
-  A 2-dimensional array of objects backed by a list of lists.  Data is accessed
-  via grid[x][y] where (x,y) are positions on a Pacman map with x horizontal,
-  y vertical and the origin (0,0) in the bottom left corner.  
-  
-  The __str__ method constructs an output that is oriented like a pacman board.
-  """
-  def __init__(self, width, height, initialValue=False):
-    if initialValue not in [False, True]: raise Exception('Grids can only contain booleans')
-    self.width = width
-    self.height = height
-    self.data = [[initialValue for y in range(height)] for x in range(width)]
-
-  def __getitem__(self, i):
-    return self.data[i]
-  
-  def __setitem__(self, key, item):
-    self.data[key] = item
+    """
+    A 2-dimensional array of objects backed by a list of lists.  Data is accessed
+    via grid[x][y] where (x,y) are positions on a Pacman map with x horizontal,
+    y vertical and the origin (0,0) in the bottom left corner.  
     
-  def __str__(self):
-    out = [[str(self.data[x][y])[0] for x in range(self.width)] for y in range(self.height)]
-    out.reverse()
-    return '\n'.join([''.join(x) for x in out])
+    The __str__ method constructs an output that is oriented like a pacman board.
+    """
+    def __init__(self, width, height, initialValue=False):
+        """
+        Initialize the grid of objectson the display.
+        """
+        if initialValue not in [False, True]: raise Exception("Grids can only contain booleans")
+        self.width = width
+        self.height = height
+        self.data = [[initialValue for y in range(height)] for x in range(width)]
   
-  def __eq__(self, other):
-    if other == None: return False
-    return self.data == other.data
-
-  def __hash__(self):
-    return hash(str(self))
-    base = 1
-    h = 0
-    for l in self.data:
-      for i in l:
-        if i:
-          h += base
-        base *= 2
-    return hash(h)
-  
-  def copy(self):
-    g = Grid(self.width, self.height)
-    g.data = [x[:] for x in self.data]
-    return g
-  
-  def deepCopy(self):
-    return self.copy()
-  
-  def shallowCopy(self):
-    g = Grid(self.width, self.height)
-    g.data = self.data
-    return g
+    def __getitem__(self, i):
+        """
+        Get the current item. What is at this point?
+        """
+        return self.data[i]
     
-  def count(self, item =True ):
-    return sum([x.count(item) for x in self.data])
+    def __setitem__(self, key, item):
+        """
+        Set the current item.
+        """
+        self.data[key] = item
+      
+    def __str__(self):
+        """
+        Return the string of data of the items.
+        """
+        out = [[str(self.data[x][y])[0] for x in range(self.width)] for y in range(self.height)]
+        out.reverse()
+        return "\n".join(["".join(x) for x in out])
     
-  def asList(self, key = True):
-    list = []
-    for x in range(self.width):
-      for y in range(self.height):
-        if self[x][y] == key: list.append( (x,y) )
-    return list
+    def __eq__(self, other):
+        """
+        Compare what we have to the other data.
+        """
+        if other == None: return False
+        return self.data == other.data
+  
+    def __hash__(self):
+        return hash(str(self))
+        base = 1
+        h = 0
+        for l in self.data:
+            for i in l:
+                if i:
+                    h += base
+                base *= 2
+        return hash(h)
+    
+    def copy(self):
+      g = Grid(self.width, self.height)
+      g.data = [x[:] for x in self.data]
+      return g
+    
+    def deepCopy(self):
+      return self.copy()
+    
+    def shallowCopy(self):
+      g = Grid(self.width, self.height)
+      g.data = self.data
+      return g
+      
+    def count(self, item =True ):
+      return sum([x.count(item) for x in self.data])
+      
+    def asList(self, key = True):
+      list = []
+      for x in range(self.width):
+        for y in range(self.height):
+          if self[x][y] == key: list.append( (x,y) )
+      return list
   
 ####################################
 # Parts you shouldn't have to read #
