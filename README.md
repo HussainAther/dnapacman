@@ -8,17 +8,17 @@ In a biological twist on a retro title, Pac-Man (playing the role of ribosomal R
 
 ## Instructions: 
 
-    1. Click "Download ZIP" on the right column.
+1. Click "Download ZIP" on the right column.
 
-    2. Unzip the directory
+2. Unzip the directory
 
-    Either:
+Either:
 
-    3. cd into the `src` directory from the Terminal and run: python pacman.py
+3. cd into the `src` directory from the Terminal and run: python pacman.py
 
-    or:
-    
-    3. Right-click on pacman.py and open with Python Launcher
+or:
+
+3. Right-click on pacman.py and open with Python Launcher
     
 ## Options:
     Use "python pacman.py --help for full options"
