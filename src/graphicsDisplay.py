@@ -2,7 +2,7 @@
 
 import math, random, time
 
-from graphicsUtils import colorToVector, formatColor
+from graphicsUtils import begin_graphics, circle, colorToVector, formatColor, line, polygon, refresh, text
 
 frametime = 0.1 # the time that Pac-Man"s animation last
 pausetime = 0 # pause time between frames
