@@ -14,7 +14,7 @@ In a biological twist on a retro title, Pac-Man (playing the role of ribosomal R
 
     Either:
 
-    3. cd into the directory from the Terminal and run: python src/pacman.py
+    3. cd into the `src` directory from the Terminal and run: python pacman.py
 
     or:
     
