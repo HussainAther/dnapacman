@@ -153,7 +153,7 @@ def circle( pos, r, color, filled=0, endpoints=None, style="pieslice", width=2):
 def refresh():
     """
     Update the canvas.
-    """"
+    """
     _canvas.update_idletasks()
                                                     
 def moveCircle(id, pos, r, endpoints=None):
