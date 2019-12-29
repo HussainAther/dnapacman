@@ -1,8 +1,8 @@
 #!/bin/python3.7
 
-import math, random, time
+import math, random, sleep, time
 
-from graphicsUtils import begin_graphics, circle, colorToVector, formatColor, line, polygon, refresh, text
+from graphicsUtils import begin_graphics, circle, colorToVector, formatColor, line, moveCircle, polygon, refresh, text
 
 frametime = 0.1 # the time that Pac-Man"s animation last
 pausetime = 0 # pause time between frames
@@ -72,70 +72,70 @@ CAPSULE_SIZE = 0.25
 WALL_RADIUS = 0.15
 
 class InfoPane:
-  def __init__(self, layout, gridSize):
-    self.gridSize = gridSize
-    self.width = (layout.width) * gridSize
-    self.base = (layout.height + 1) * gridSize
-    self.height = infopaneheight 
-    self.drawPane()
-
-  def toScreen(self, pos, y = None):
-    """
-      Translates a point relative from the bottom left of the info pane.
-    """
-    if y == None:
-      x,y = pos
-    else:
-      x = pos
-      
-    x = self.gridSize + x # MRin
-    y = self.base + y 
-    return x,y
-
-  def drawPane(self):
-    color = PACMAN_COLORS[0]
-    size = 24
-    self.scoreText = text( self.toScreen(0, 0  ), color, "SCORE:    0", "Times", size, "bold")
-    
-  def updateScore(self, score):
-    changeText(self.scoreText, "SCORE: % 4d" % score)
+    def __init__(self, layout, gridSize):
+        self.gridSize = gridSize
+        self.width = (layout.width) * gridSize
+        self.base = (layout.height + 1) * gridSize
+        self.height = infopaneheight 
+        self.drawPane()
   
-  def initializeGhostDistances(self, distances):
-    self.ghostDistanceText = []
+    def toScreen(self, pos, y = None):
+        """
+        Translates a point relative from the bottom left of the info pane.
+        """
+        if y == None:
+            x,y = pos
+        else:
+            x = pos
+           
+        x = self.gridSize + x # MRin
+        y = self.base + y 
+        return x,y
+  
+    def drawPane(self):
+        color = PACMAN_COLORS[0]
+        size = 24
+        self.scoreText = text( self.toScreen(0, 0  ), color, "SCORE:    0", "Times", size, "bold")
+      
+    def updateScore(self, score):
+      changeText(self.scoreText, "SCORE: % 4d" % score)
     
-    size = 20
-    if self.width < 240:
-      size = 12
-    if self.width < 160:
-      size = 10
+    def initializeGhostDistances(self, distances):
+      self.ghostDistanceText = []
       
-    for i, d in enumerate(distances):
-      t = text( self.toScreen(self.width/2 + self.width/8 * i, 0), ghostcolors[i+1], d, "Times", size, "bold")
-      self.ghostDistanceText.append(t)
-      
-  def updateGhostDistances(self, distances):
-    if "ghostDistanceText" not in dir(self): self.initializeGhostDistances(distances)
-    else:
+      size = 20
+      if self.width < 240:
+        size = 12
+      if self.width < 160:
+        size = 10
+        
       for i, d in enumerate(distances):
-        changeText(self.ghostDistanceText[i], d)
+        t = text( self.toScreen(self.width/2 + self.width/8 * i, 0), ghostcolors[i+1], d, "Times", size, "bold")
+        self.ghostDistanceText.append(t)
+        
+    def updateGhostDistances(self, distances):
+      if "ghostDistanceText" not in dir(self): self.initializeGhostDistances(distances)
+      else:
+        for i, d in enumerate(distances):
+          changeText(self.ghostDistanceText[i], d)
+      
+    def drawGhost(self):
+      pass
     
-  def drawGhost(self):
-    pass
-  
-  def drawPacman(self):
-    pass
-    
-  def drawWarning(self):
-    pass
-    
-  def clearIcon(self):
-    pass
-    
-  def updateMessage(self, message):
-    pass
-    
-  def clearMessage(self):
-    pass
+    def drawPacman(self):
+      pass
+      
+    def drawWarning(self):
+      pass
+      
+    def clearIcon(self):
+      pass
+      
+    def updateMessage(self, message):
+      pass
+      
+    def clearMessage(self):
+      pass
 
 
 class PacmanGraphics:
