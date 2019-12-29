@@ -9,7 +9,7 @@ Data structures useful for implementing SearchAgents
 class Stack:
     """
     Data structure that implements a last-in-first-out (LIFO)
-    queue policy. 
+    queue policy
     """
     def __init__(self):
         self.list = []
@@ -21,11 +21,11 @@ class Stack:
         self.list.append(item)
 
     def pop(self):
-       """
-       Pop the most recently pushed item from
-       the stack.
-       """
-       return self.list.pop()
+        """
+        Pop the most recently pushed item from
+        the stack.
+        """
+        return self.list.pop()
 
     def isEmpty(self):
         """
@@ -80,119 +80,119 @@ class PriorityQueue:
         self.heap = []
         self.dict = {}
       
-  def push(self,item,priority):
-      """
-      Sets the priority of the 'item' to
-      priority. If the 'item' is already
-      in the queue, then its key is changed
-      to the new priority, regardless if it
-      is higher or lower than the current 
-      priority.
-      """
-      if item in self.dict:
-          self.dict[item][0] = priority
-          heapq.heapify(self.heap)
-      else:
-          pair = [priority,item]
-          heapq.heappush(self.heap,pair)
-          self.dict[item] = pair
+    def push(self,item,priority):
+        """
+        Sets the priority of the 'item' to
+        priority. If the 'item' is already
+        in the queue, then its key is changed
+        to the new priority, regardless if it
+        is higher or lower than the current 
+        priority.
+        """
+        if item in self.dict:
+            self.dict[item][0] = priority
+            heapq.heapify(self.heap)
+        else:
+            pair = [priority,item]
+            heapq.heappush(self.heap,pair)
+            self.dict[item] = pair
       
     def getPriority(self,item):
         """
         Get priority of 'item'. If 
         'item' is not in the queue returns None
         """
-      if not item in self.dict:
-          return None
-      return self.dict[item][0]
+        if not item in self.dict:
+            return None
+        return self.dict[item][0]
       
-  def pop(self):
-    """
-      Returns lowest-priority item in priority queue, or
-      None if the queue is empty
-    """
-    if self.isEmpty(): return None
-    (priority,item) = heapq.heappop(self.heap)
-    del self.dict[item]
-    return item  
+    def pop(self):
+        """
+        Returns lowest-priority item in priority queue, or
+        None if the queue is empty
+        """
+        if self.isEmpty(): return None
+        (priority,item) = heapq.heappop(self.heap)
+        del self.dict[item]
+        return item  
   
-  def isEmpty(self):
-    """
+    def isEmpty(self):
+        """
         Returns True if the queue is empty
-    """
-    return len(self.heap) == 0
+        """
+        return len(self.heap) == 0
 
 class FasterPriorityQueue:
-  """
+    """
     Implements a priority queue data structure.  This differs from the 
     PriorityQueue in that it allows multiple copies of the same object, 
     and doesn't support getPriority or changing priority.
-  """
+    """
   
-  def  __init__(self):  
-    self.heap = []
+    def  __init__(self):  
+        self.heap = []
     
-  def push(self, item, priority):
-      pair = (priority,item)
-      heapq.heappush(self.heap,pair)
+    def push(self, item, priority):
+        pair = (priority,item)
+        heapq.heappush(self.heap,pair)
 
-  def pop(self):
-      (priority,item) = heapq.heappop(self.heap)
-      return item
+    def pop(self):
+        (priority,item) = heapq.heappop(self.heap)
+        return item
   
-  def isEmpty(self):
-    return len(self.heap) == 0
+    def isEmpty(self):
+        return len(self.heap) == 0
 
 class Counter(dict):
-  """
-  A counter keeps track of counts for a set of keys.
-  
-  The counter class is an extension of the standard python
-  dictionary type.  It is specialized to have number values  
-  (integers or floats), and includes a handful of additional
-  functions to ease the task of counting data.  In particular, 
-  all keys are defaulted to have value 0.  Using a dictionary:
-  
-  a = {}
-  print a['test']
-  
-  would give an error, while the Counter class analogue:
-    
-  >>> a = Counter()
-  >>> print a.getCount('test')
-  0
-  
-  returns the default 0 value. Note that to reference a key 
-  that you know is contained in the counter, 
-  you can still use the dictionary syntax:
-    
-  >>> a = Counter()
-  >>> a['test'] = 2
-  >>> print a['test']
-  2
-  
-  The counter also includes additional functionality useful in implementing
-  the classifiers for this assignment.  Two counters can be added,
-  subtracted or multiplied together.  See below for details.  They can
-  also be normalized and their total count and arg max can be extracted.
-  """
-  def incrementCount(self, key, count):
     """
-    Increases the count of key by the specified count.  If 
-    the counter does not contain the key, then the count for
-    key will be set to count.
+    A counter keeps track of counts for a set of keys.
+  
+    The counter class is an extension of the standard python
+    dictionary type.  It is specialized to have number values  
+    (integers or floats), and includes a handful of additional
+    functions to ease the task of counting data.  In particular, 
+    all keys are defaulted to have value 0.  Using a dictionary:
+  
+    a = {}
+    print a['test']
+  
+    would give an error, while the Counter class analogue:
     
     >>> a = Counter()
-    >>> a.incrementCount('test', 1)
-    >>> a.getCount('hello')
+    >>> print a.getCount('test')
     0
-    >>> a.getCount('test')
-    1
+  
+    returns the default 0 value. Note that to reference a key 
+    that you know is contained in the counter, 
+    you can still use the dictionary syntax:
+    
+    >>> a = Counter()
+    >>> a['test'] = 2
+    >>> print a['test']
+    2
+  
+    The counter also includes additional functionality useful in implementing
+    the classifiers for this assignment.  Two counters can be added,
+    subtracted or multiplied together.  See below for details.  They can
+    also be normalized and their total count and arg max can be extracted.
     """
-    if key in self:
-      self[key] += count
-    else:
-      self[key] = count
+    def incrementCount(self, key, count):
+        """
+        Increases the count of key by the specified count.  If 
+        the counter does not contain the key, then the count for
+        key will be set to count.
+        
+        >>> a = Counter()
+        >>> a.incrementCount('test', 1)
+        >>> a.getCount('hello')
+        0
+        >>> a.getCount('test')
+        1
+        """
+        if key in self:
+            self[key] += count
+        else:
+            self[key] = count
       
   def incrementAll(self, keys, count):
     """
