@@ -134,32 +134,32 @@ class AgentState:
             return False
         return self.configuration == other.configuration and self.scaredTimer == other.scaredTimer
   
-      def __hash__(self):
-          """
-          Create a hash of how much scared time there is.
-          """
-          return hash(self.configuration) + 13* hash(self.scaredTimer)
-  
-      def copy( self ):
-          """
-          Create a copy of the current state.
-          """
-          state = AgentState( self.start, self.isPacman )
-          state.configuration = self.configuration
-          state.scaredTimer = self.scaredTimer
-          return state
-  
-      def getPosition(self):
-          """
-          Get the current position.
-          """
-          return self.configuration.getPosition()
+    def __hash__(self):
+        """
+        Create a hash of how much scared time there is.
+        """
+        return hash(self.configuration) + 13* hash(self.scaredTimer)
 
-      def getDirection(self):
-          """
-          Get the direction of the current configuration.
-          """
-          return self.configuration.getDirection()
+    def copy( self ):
+        """
+        Create a copy of the current state.
+        """
+        state = AgentState( self.start, self.isPacman )
+        state.configuration = self.configuration
+        state.scaredTimer = self.scaredTimer
+        return state
+
+    def getPosition(self):
+        """
+        Get the current position.
+        """
+        return self.configuration.getPosition()
+
+    def getDirection(self):
+        """
+        Get the direction of the current configuration.
+        """
+        return self.configuration.getDirection()
   
 class Grid:
     """
@@ -298,7 +298,7 @@ class Actions:
             return Directions.WEST
         if dx > 0:
             return Directions.EAST
-       return Directions.STOP
+        return Directions.STOP
     vectorToDirection = staticmethod(vectorToDirection)
   
     def directionToVector(direction, speed = 1.0):
@@ -331,11 +331,11 @@ class Actions:
         neighbors = []
         for dir, vec in Actions._directionsAsList:
             dx, dy = vec
-             next_x = x_int + dx
-             if next_x < 0 or next_x == walls.width: continue
-             next_y = y_int + dy
-             if next_y < 0 or next_y == walls.height: continue
-             if not walls[next_x][next_y]: neighbors.append((next_x, next_y))
+            next_x = x_int + dx
+            if next_x < 0 or next_x == walls.width: continue
+            next_y = y_int + dy
+            if next_y < 0 or next_y == walls.height: continue
+            if not walls[next_x][next_y]: neighbors.append((next_x, next_y))
         return neighbors
     getLegalNeighbors = staticmethod(getLegalNeighbors)
 
@@ -397,27 +397,27 @@ class GameStateData:
                 hash(state)
         return hash(tuple(self.agentStates)) + 13*hash(self.food) + 113* hash(tuple(self.capsules)) + 7 * hash(self.score)
   
-      def __str__( self ): 
-          width, height = self.layout.width, self.layout.height
-          map = Grid(width, height)
-          for x in range(width):
-              for y in range(height):
-                  food, walls = self.food, self.layout.walls
-                  map[x][y] = self._foodWallStr(food[x][y], walls[x][y])
-      
-          for agentState in self.agentStates:
-              x,y = [int( i ) for i in nearestPoint( agentState.configuration.pos )]
-              agent_dir = agentState.configuration.direction
-              if agentState.isPacman:
-                  map[x][y] = self._pacStr( agent_dir )
-              else:
-                  map[x][y] = self._ghostStr( agent_dir )
+    def __str__( self ): 
+        width, height = self.layout.width, self.layout.height
+        map = Grid(width, height)
+        for x in range(width):
+            for y in range(height):
+                food, walls = self.food, self.layout.walls
+                map[x][y] = self._foodWallStr(food[x][y], walls[x][y])
+    
+        for agentState in self.agentStates:
+            x,y = [int( i ) for i in nearestPoint( agentState.configuration.pos )]
+            agent_dir = agentState.configuration.direction
+            if agentState.isPacman:
+                map[x][y] = self._pacStr( agent_dir )
+            else:
+                map[x][y] = self._ghostStr( agent_dir )
   
-          for x, y in self.capsules:
-              map[x][y] = 'o'
+        for x, y in self.capsules:
+            map[x][y] = 'o'
+    
+        return str(map) + ("\nScore: %d\n" % self.score) 
       
-          return str(map) + ("\nScore: %d\n" % self.score) 
-        
     def _foodWallStr( self, hasFood, hasWall ):
         """
         Check if the wall has food.
