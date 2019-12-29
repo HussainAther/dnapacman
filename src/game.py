@@ -160,8 +160,8 @@ class AgentState:
   
 class Grid:
     """
-    A 2-dimensional array of objects backed by a list of lists.  Data is accessed
-    via grid[x][y] where (x,y) are positions on a Pacman map with x horizontal,
+    A 2-dimensional array of objects backed by a list of lists. Data is accessed
+    via grid[x][y] where (x,y) are positions on a Pac-Man map with x horizontal,
     y vertical and the origin (0,0) in the bottom left corner.  
     
     The __str__ method constructs an output that is oriented like a pacman board.
@@ -203,6 +203,9 @@ class Grid:
         return self.data == other.data
   
     def __hash__(self):
+        """
+        Create a hasha mapping what we have to the base.
+        """
         return hash(str(self))
         base = 1
         h = 0
@@ -214,113 +217,128 @@ class Grid:
         return hash(h)
     
     def copy(self):
-      g = Grid(self.width, self.height)
-      g.data = [x[:] for x in self.data]
-      return g
+        """
+        Create a copy of the current state.
+        """
+        g = Grid(self.width, self.height)
+        g.data = [x[:] for x in self.data]
+        return g
     
     def deepCopy(self):
-      return self.copy()
+        """
+        Use the built-in copy() function to create a copy.
+        """
+        return self.copy()
     
     def shallowCopy(self):
-      g = Grid(self.width, self.height)
-      g.data = self.data
-      return g
+        """
+        Create a copy using the Grid() function.
+        """
+        g = Grid(self.width, self.height)
+        g.data = self.data
+        return g
       
     def count(self, item =True ):
-      return sum([x.count(item) for x in self.data])
+        """
+        Count the number of items.
+        """
+        return sum([x.count(item) for x in self.data])
       
     def asList(self, key = True):
-      list = []
-      for x in range(self.width):
-        for y in range(self.height):
-          if self[x][y] == key: list.append( (x,y) )
-      return list
+        """
+        Return the data as a list.
+        """
+        list = []
+        for x in range(self.width):
+            for y in range(self.height):
+                if self[x][y] == key: list.append( (x,y) )
+        return list
   
 ####################################
 # Parts you shouldn't have to read #
 ####################################
   
 class Actions:
-  """
-  A collection of static methods for manipulating move actions.
-  """
-  # Directions
-  _directions = {Directions.NORTH: (0, 1), 
-                 Directions.SOUTH: (0, -1), 
-                 Directions.EAST:  (1, 0), 
-                 Directions.WEST:  (-1, 0), 
-                 Directions.STOP:  (0, 0)}
+    """
+    A collection of static methods for manipulating move actions.
+    """
+    # Directions
+    _directions = {Directions.NORTH: (0, 1), 
+                   Directions.SOUTH: (0, -1), 
+                   Directions.EAST:  (1, 0), 
+                   Directions.WEST:  (-1, 0), 
+                   Directions.STOP:  (0, 0)}
 
-  _directionsAsList = _directions.items()
+    _directionsAsList = _directions.items()
 
-  TOLERANCE = .001
+    tol = .001 # tolerance threshold which we use as differences between values
   
-  def reverseDirection(action):
-    if action == Directions.NORTH:
-      return Directions.SOUTH
-    if action == Directions.SOUTH:
-      return Directions.NORTH
-    if action == Directions.EAST:
-      return Directions.WEST
-    if action == Directions.WEST:
-      return Directions.EAST
-    return action
-  reverseDirection = staticmethod(reverseDirection)
+    def reverseDirection(action):
+        if action == Directions.NORTH:
+            return Directions.SOUTH
+        elif action == Directions.SOUTH:
+            return Directions.NORTH
+        elif action == Directions.EAST:
+            return Directions.WEST
+        elif action == Directions.WEST:
+            return Directions.EAST
+        return action
+    reverseDirection = staticmethod(reverseDirection)
   
-  def vectorToDirection(vector):
-    dx, dy = vector
-    if dy > 0:
-      return Directions.NORTH
-    if dy < 0:
-      return Directions.SOUTH
-    if dx < 0:
-      return Directions.WEST
-    if dx > 0:
-      return Directions.EAST
-    return Directions.STOP
-  vectorToDirection = staticmethod(vectorToDirection)
+    def vectorToDirection(vector):
+        dx, dy = vector
+        if dy > 0:
+            return Directions.NORTH
+        if dy < 0:
+            return Directions.SOUTH
+        if dx < 0:
+            return Directions.WEST
+        if dx > 0:
+            return Directions.EAST
+       return Directions.STOP
+    vectorToDirection = staticmethod(vectorToDirection)
   
-  def directionToVector(direction, speed = 1.0):
-    dx, dy =  Actions._directions[direction]
-    return (dx * speed, dy * speed)
-  directionToVector = staticmethod(directionToVector)
+    def directionToVector(direction, speed = 1.0):
+        dx, dy =  Actions._directions[direction]
+        return (dx * speed, dy * speed)
+    directionToVector = staticmethod(directionToVector)
 
-  def getPossibleActions(config, walls):
-    possible = []
-    x, y = config.getPosition()
-    x_int, y_int = int(x + 0.5), int(y + 0.5)
+    def getPossibleActions(config, walls):
+        possible = []
+        x, y = config.getPosition()
+        x_int, y_int = int(x + 0.5), int(y + 0.5)
     
-    # In between grid points, all agents must continue straight
-    if (abs(x - x_int) + abs(y - y_int)  > Actions.TOLERANCE):
-      return [config.getDirection()]
+        # In between grid points, all agents must continue straight
+        if (abs(x - x_int) + abs(y - y_int)  > Actions.tol):
+            return [config.getDirection()]
     
-    for dir, vec in Actions._directionsAsList:
-      dx, dy = vec
-      next_y = y_int + dy
-      next_x = x_int + dx
-      if not walls[next_x][next_y]: possible.append(dir)
+        for dir, vec in Actions._directionsAsList:
+            dx, dy = vec
+            next_y = y_int + dy
+            next_x = x_int + dx
+            if not walls[next_x][next_y]: possible.append(dir)
 
-    return possible
+        return possible
 
-  getPossibleActions = staticmethod(getPossibleActions)
+    getPossibleActions = staticmethod(getPossibleActions)
 
-  def getLegalNeighbors(position, walls):
-    x,y = position
-    x_int, y_int = int(x + 0.5), int(y + 0.5)
-    neighbors = []
-    for dir, vec in Actions._directionsAsList:
-      dx, dy = vec
-      next_x = x_int + dx
-      if next_x < 0 or next_x == walls.width: continue
-      next_y = y_int + dy
-      if next_y < 0 or next_y == walls.height: continue
-      if not walls[next_x][next_y]: neighbors.append((next_x, next_y))
-    return neighbors
-  getLegalNeighbors = staticmethod(getLegalNeighbors)
+    def getLegalNeighbors(position, walls):
+        x,y = position
+        x_int, y_int = int(x + 0.5), int(y + 0.5)
+        neighbors = []
+        for dir, vec in Actions._directionsAsList:
+            dx, dy = vec
+             next_x = x_int + dx
+             if next_x < 0 or next_x == walls.width: continue
+             next_y = y_int + dy
+             if next_y < 0 or next_y == walls.height: continue
+             if not walls[next_x][next_y]: neighbors.append((next_x, next_y))
+        return neighbors
+    getLegalNeighbors = staticmethod(getLegalNeighbors)
 
 class GameStateData:
   """
-  
+  Data for the game in its current state using these functions. 
   """
   def __init__( self, prevState = None ):
     """ 
