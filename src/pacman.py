@@ -12,6 +12,8 @@ import os, random, sys, time, types, util
 from game import Actions, Directions, Game, GameStateData
 from util import manhattanDistance, nearestPoint
 
+print("================================================.\n .-.   .-.     .--.                             |\n| O    O| | OO|   / _.-'    A   C   U   G   U   C   |\n|   | |   |   \  '-.                            |\n'^^^' '^^^'        '--'                         C   |\n===============.       .================.       |\n               |           |                |   U   |\n               |       |                |       |\n               |       |                    |   U   |\n               |       |                |       |\n==============='       '================'       A   |")
+
 def restart_program():
     """
     Restarts the current program.
@@ -19,8 +21,6 @@ def restart_program():
     """
     python = sys.executable
     os.execl(python, python, * sys.argv)
-
-# print(str("================================================.\n .-.   .-.     .--.                             |\n| OO| | OO|   / _.-"    A   C   U   G   U   C   |\n|   | |   |   \  "-.                            |\n"^^^" "^^^"    "--"                         C   |\n===============.       .================.       |\n               |       |                |   U   |\n               |       |                |       |\n               |       |                |   U   |\n               |       |                |       |\n==============="       "================"   A   |"))
 
 class GameState:
   
@@ -33,15 +33,15 @@ class GameState:
             return GhostRules.getLegalActions( self, agentIndex )
       
     def generateSuccessor( self, agentIndex, action):
-        if self.isWin() or self.isLose(): raise Exception("Can\"t generate a successor of a terminal state.")
+        if self.isWin() or self.isLose(): raise Exception("Can\'t generate a successor of a terminal state.")
       
         state = GameState(self)
   
         if agentIndex == 0:
             state.data._eaten = [False for i in range(state.getNumAgents())]
-            PacmanRules.applyAction( state, action )
+            PacmanRules.applyAction(state, action)
         else:
-            GhostRules.applyAction( state, action, agentIndex )
+            GhostRules.applyAction(state, action, agentIndex)
       
         if agentIndex == 0:
             state.data.scoreChange += 0
@@ -174,8 +174,8 @@ class PacmanRules:
     def getLegalActions( state ):
         return Actions.getPossibleActions( state.getPacmanState().configuration, state.data.layout.walls )
     getLegalActions = staticmethod( getLegalActions )
-    
-    def applyAction( state, action ):
+
+    def applyAction(state, action ):
         legal = PacmanRules.getLegalActions( state )
         if action not in legal:
             raise BaseException("Illegal action" + str(action))
@@ -192,7 +192,7 @@ class PacmanRules:
         if manhattanDistance( nearest, next ) <= 0.5 :
             # Remove food
             PacmanRules.consume( nearest, state )
-        applyAction = staticmethod( applyAction )
+    applyAction = staticmethod( applyAction )
   
     def consume( position, state ):
         x,y = position
@@ -229,12 +229,12 @@ class GhostRules:
             possibleActions.remove( reverse )
         return possibleActions
     getLegalActions = staticmethod( getLegalActions )
-      
-    def applyAction( state, action, ghostIndex):
+
+    def applyAction(state, action, ghostIndex):
   
         legal = GhostRules.getLegalActions( state, ghostIndex )
         if action not in legal:
-            "Illegal ghost action", action
+            raise BaseException("Illegal ghost action", action)
   
         ghostState = state.data.agentStates[ghostIndex]
         speed = GhostRules.GHOST_SPEED
