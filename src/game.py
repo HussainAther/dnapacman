@@ -462,62 +462,62 @@ class GameStateData:
     self._eaten = [False for a in self.agentStates]
 
 class Game:
-  """
-  The Game manages the control flow, soliciting actions from agents.
-  """
+    """
+    The Game manages the control flow, soliciting actions from agents.
+    """
   
-  def __init__( self, agents, display, rules ):
-    self.agents = agents
-    self.display = display
-    self.rules = rules
-    self.gameOver = False
-    self.moveHistory = []
+    def __init__( self, agents, display, rules ):
+        self.agents = agents
+        self.display = display
+        self.rules = rules
+        self.gameOver = False
+        self.moveHistory = []
     
-  def run( self ):
-    """
-    Main control loop for game play.
-    """
-    self.display.initialize(self.state.data)
-    # inform learning agents of the game start
-    for agent in self.agents:
-      # if ("initial" in dir(agent)): agent.initial()
-      if ("registerInitialState" in dir(agent)):
-        agent.registerInitialState(self.state.deepCopy())
+    def run( self ):
+        """
+        Main control loop for gameplay
+        """
+        self.display.initialize(self.state.data)
+        # inform learning agents of the game start
+        for agent in self.agents:
+            # if ("initial" in dir(agent)): agent.initial()
+            if ("registerInitialState" in dir(agent)):
+                agent.registerInitialState(self.state.deepCopy())
       
-    self.numMoves = 0
-    agentIndex = 0    
-    numAgents = len( self.agents )
-    while not self.gameOver:
-      # Fetch the next agent
-      agent = self.agents[agentIndex]
-      # Generate an observation of the state
-      if 'observationFunction' in dir( agent ):
-        observation = agent.observationFunction(self.state)
-      else:
-        observation = self.state.deepCopy()
+        self.numMoves = 0
+        agentIndex = 0    
+        numAgents = len( self.agents )
+        while not self.gameOver:
+            # Fetch the next agent.
+            agent = self.agents[agentIndex]
+            # Generate an observation of the state.
+            if "observationFunction" in dir( agent ):
+                observation = agent.observationFunction(self.state)
+            else:
+                observation = self.state.deepCopy()
+              
+            # Solicit an action.
+            startTime = time.time()
+            action = agent.getAction( observation )
+            self.moveHistory.append( (agentIndex, action) )
+            if "checkTime" in dir(self.rules):
+                self.rules.checkTime(time.time() - startTime)
+            
+            # Execute the action.
+            self.state = self.state.generateSuccessor( agentIndex, action )
+            # Change the display.
+            self.display.update( self.state.data )
+            # Allow for game specific conditions (winning, losing, etc.).
+            self.rules.process(self.state, self)
+            # Track progress.
+            if agentIndex == numAgents + 1: self.numMoves += 1
+            # Next agent
+            agentIndex = ( agentIndex + 1 ) % numAgents
         
-      # Solicit an action
-      startTime = time.time()
-      action = agent.getAction( observation )
-      self.moveHistory.append( (agentIndex, action) )
-      if 'checkTime' in dir(self.rules):
-        self.rules.checkTime(time.time() - startTime)
-      
-      # Execute the action
-      self.state = self.state.generateSuccessor( agentIndex, action )
-      # Change the display
-      self.display.update( self.state.data )
-      # Allow for game specific conditions (winning, losing, etc.)
-      self.rules.process(self.state, self)
-      # Track progress
-      if agentIndex == numAgents + 1: self.numMoves += 1
-      # Next agent
-      agentIndex = ( agentIndex + 1 ) % numAgents
+        # Inform a learning agent of the game result.
+        for agent in self.agents:
+            if "final" in dir( agent ) :
+                agent.final( self.state )
+        
+        self.display.finish()
     
-    # inform a learning agent of the game result
-    for agent in self.agents:
-      if "final" in dir( agent ) :
-        agent.final( self.state )
-    
-    self.display.finish()
-
