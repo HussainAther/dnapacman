@@ -1,12 +1,18 @@
-import pacman
-import time
+import pacman, time
 
 drawevery = 1
 sleeptime = 0.5 # This can be overwritten by __init__.
 displaymoves = False
 quiet = False # Supresses output.
 
+"""
+Display the text like the score on the screen.
+"""
+
 class NullGraphics:
+    """
+    Helper functions if needed for more uses
+    """
     def initialize(self, state):
         pass
   
@@ -17,6 +23,9 @@ class NullGraphics:
         pass
 
 class PacmanGraphics:
+    """
+    Control the Pac-Man graphics themselves.
+    """
     def __init__(self, speed=None):
         if speed != None:
             global sleeptime
