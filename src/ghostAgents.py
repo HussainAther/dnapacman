@@ -33,18 +33,22 @@ class DirectionalGhost( Agent ):
      For the ghosts that move in a specific direction relative
      to the player, figure out how they will move.
      """
-    def __init__( self, index, prob_attack=0.8, prob_scaredFlee=0.1 ):
-        """
-        Initialize the index (board location) and the probabilities the ghost
-        will attack or run away from Pac-Man.
-        """
-        self.index = index
-        self.prob_attack = prob_attack
-    self.prob_scaredFlee = prob_scaredFlee
+     def __init__( self, index, prob_attack=0.8, prob_scaredFlee=0.1 ):
+         """
+         Initialize the index (board location) and the probabilities the ghost
+         will attack or run away from Pac-Man.
+         """
+         self.index = index
+         self.prob_attack = prob_attack
+         self.prob_scaredFlee = prob_scaredFlee
     
-  def getAction( self, state ):
-    dist = self.getDistribution( state )
-    return chooseFromDistribution( dist )
+    def getAction( self, state ):
+        """
+        Get the action the ghost will do based on a distribution
+        of possible actions.
+        """
+        dist = self.getDistribution( state )
+        return chooseFromDistribution( dist )
   
   def getDistribution( self, state ):
     # Read variables from state
