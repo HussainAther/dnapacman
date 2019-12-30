@@ -1,5 +1,4 @@
-import os
-import random
+import os, random
 
 from game import Grid
 from util import manhattanDistance
@@ -63,6 +62,10 @@ class Layout:
         return self.walls[x][col]
     
     def getRandomLegalPosition(self):
+        """
+        From possible positions, generate a random position and check
+        if it's legal.
+        """
         x = random.choice(range(self.width))
         y = random.choice(range(self.height))
         while self.isWall( (x, y) ):
