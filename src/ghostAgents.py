@@ -1,12 +1,11 @@
-from game import Agent
 import random
-from util import chooseFromDistribution
-from util import manhattanDistance
-from game import Actions
+
+from game import Actions, Agent
+from util import chooseFromDistribution, manhattanDistance
 
 class RandomGhost( Agent ):
-  def __init__( self, index ):
-    self.index = index
+    def __init__( self, index ):
+        self.index = index
     
   def getAction( self, state ):
     return random.choice( state.getLegalActions( self.index ) )
