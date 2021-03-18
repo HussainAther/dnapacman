@@ -156,14 +156,14 @@ class ClassicGameRules:
         
     def win(self, state, game):
         print("You won! Score: %d" % state.data.score)
-        answer = raw_input("Press Enter to play again.")
+        answer = input("Press Enter to play again.")
         game.gameOver = True
         if answer.lower().strip() in "\n":
             restart_program()
   
     def lose( self, state, game ):
         print("You died! Score: %d" % state.data.score)
-        answer = raw_input("Press Enter to play again.")
+        answer = input("Press Enter to play again.")
         game.gameOver = True
         if answer.lower().strip() in "\n":
             restart_program()
@@ -276,7 +276,7 @@ class GhostRules:
             if not state.data._win:
                 state.data.scoreChange -= 0
                 state.data._lose = True
-        collide = staticmethod( collide )
+    collide = staticmethod( collide )
   
     def canKill( pacmanPosition, ghostPosition ):
         return manhattanDistance( ghostPosition, pacmanPosition ) <= COLLISION_TOLERANCE
