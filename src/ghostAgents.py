@@ -14,19 +14,19 @@ class RandomGhost( Agent ):
         """
         self.index = index
     
-  def getAction( self, state ):
-      """
-      Get a random action from the possible (legal) actions.
-      """ 
-      return random.choice( state.getLegalActions( self.index ) )
+    def getAction( self, state ):
+        """
+        Get a random action from the possible (legal) actions.
+        """ 
+        return random.choice( state.getLegalActions( self.index ) )
   
-  def getDistribution( self, state ):
-      """
-      Get the distribution of possible actions.
-      """
-      actions = state.getLegalActions( self.index )
-      prob = 1.0 / len( actions )
-      return [( prob, action ) for action in actions]
+    def getDistribution( self, state ):
+        """
+        Get the distribution of possible actions.
+        """
+        actions = state.getLegalActions( self.index )
+        prob = 1.0 / len( actions )
+        return [( prob, action ) for action in actions]
 
 class DirectionalGhost( Agent ):
      """
